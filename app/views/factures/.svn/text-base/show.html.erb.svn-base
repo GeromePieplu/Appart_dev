@@ -1,0 +1,77 @@
+<h1>Voir la facture</h1><br>
+<p>
+  <b>numero facture:</b>
+  <%=h @facture.id %>
+</p>
+<p>
+  <b>Date:</b>
+  <%=h @facture.date %><br />
+  <b>Emetteur:</b>
+  <%=h @facture.emetteur %>
+</p>
+<p>
+  <b>Type:</b>
+  <%=h @facture.typeDepense %><br />
+  <b>Soustype:</b>
+  <%=h @facture.soustype %>
+</p>
+
+
+<p>
+  <b>Immeuble:</b>
+    <%immeub = if (@facture.immeuble_id).nil? then  "aucun" else @facture.immeuble.nom  end %> 
+    <%=h immeub %>
+</p>
+<p>
+  <b>Date banque:</b>
+  <%=h @facture.date_banque %><br />
+  <b>Référence banque:</b>
+  <%=h @facture.ref_banque %>  
+</p>
+<p>
+  <b>Montant:</b>
+  <%=h @facture.montant %>
+</p>
+<p>
+  <b>Montant total réparti:</b>
+  <%montantTotal = 0%>
+  <% for depense in @depenses %>
+    <%montantTotal += depense.montant_reparti%>  
+  <%end%>	
+  <% if montantTotal > @facture.montant+1 then%>
+  <font color="red">
+  	 <%=h montantTotal %>
+  	attention le montant réparti est supérieur à la facture
+  <%else%>
+    <%=h montantTotal %>
+  <%end%>	
+  <font color="black">
+</p>
+<p>
+  <b>Remarque:</b>
+  <%=h @facture.remarque %>
+</p>
+<%= link_to 'nouvelle répartition', :controller=>"depenses", :action => "new", :id =>@facture.id %><br>
+<table>
+  <tr>
+  	<th>Numéro</th>
+    <th>appartement</th>
+    <th>repartition</th>
+    <th>montant</th>
+    <th>Remarque</th>
+  </tr>
+
+<% for depense in @depenses %>
+  <tr>
+  	<td><%=h depense.id %></td>
+    <td><%=h depense.appartement.nom %></td>
+    <td><%=h depense.repartition %></td>
+    <td><%=h depense.montant_reparti %></td>
+    <td><%=h depense.remarque %></td>
+    <td><%= link_to 'Supprimer', depense, :confirm => 'supprimer la depense?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Editer', edit_facture_path(@facture) %> |
+<%= link_to 'Retour', factures_path %>

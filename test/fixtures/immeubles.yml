@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  nom: MyString
+  adresse: MyText
+  code_postal: 1
+  ville: MyString
+  date_achat: 2013-01-20
+
+two:
+  nom: MyString
+  adresse: MyText
+  code_postal: 1
+  ville: MyString
+  date_achat: 2013-01-20

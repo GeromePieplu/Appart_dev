@@ -1,0 +1,8 @@
+Listing historique paiement <%=@appartement.nom%>
+pour la période du <%= dateToChaineCourte(@from_date) %> au <%= dateToChaineCourte(@to_date)%>
+Numero reservation;Numero paiement;date;montant;type;remarque
+	<% for reservation in @reservations %>
+	   <% for paiement in reservation.paiements.find(:all,:conditions=>{:date_paiement=>@from_date..@to_date}) %><%=h reservation.id %>;<%=h paiement.id %>;<%= paiement.date_paiement %>;<%= formatCsv(paiement.montant) %>;<%= paiement.type_paiement %>;<%= paiement.commentaires %>
+    <% end %>
+    <% end %>
+    

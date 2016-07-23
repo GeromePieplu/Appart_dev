@@ -1,0 +1,5 @@
+Listing des dépenses pour <%= @appt.nom %>
+n° facture;Date;Emetteur;Type;repartion;Montant;Remarque
+<% for dep in @depenses %><%= dep.facture.id  %>;<%=h dep.facture.date %>;<%=h dep.facture.emetteur %>;<%=h dep.typeDepense %>;<%=h formatCsv(dep.repartition) %>;<%= formatCsv(dep.montant_reparti) %>;<%=h dep.remarque %>
+<% end %>
+

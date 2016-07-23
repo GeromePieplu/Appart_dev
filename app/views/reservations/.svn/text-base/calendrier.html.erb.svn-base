@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+ <%= javascript_include_tag "gfbulle.js" %>
+</head>
+<% m = @numMois %>
+<% @calend_tab.init_lecture %> 
+<h1 ALIGN=CENTER> <%= @titre %></h1><br>
+<table class= "tableCalendrier">
+	<tr>
+	<% for i in 1..@nombreMois %>
+	  <td class= "tableCalendrier">
+	  	<b>
+	  	<%=getNomMois(m) + " " + @annee.to_s%>
+		</b>
+		<table class= "tableCelluleCalendrier">
+			<tr>
+			<th>sem</th>
+			<th>sa</th>
+			<th>di</th>
+			<th>lu</th>
+			<th>ma</th>
+			<th>me</th>
+			<th>je</th>
+			<th>ve</th>
+			<tr>
+			<% moisCommencer = false %>	
+			<% moisFinis = false %>
+			<% @dateCour = Date.new(@annee,m,1)%>
+			<% for c in 0..47%>	
+			  <%if c % 8 == 0 and !moisFinis %>
+			    <td class= "tableCalendrier" bgcolor= #C0C0C0>
+				<%= getNumSem(@dateCour).to_s %>
+				</font>
+              <% elsif moisFinis%>
+			    <td class= "tableCalendrier">
+			    &nbsp
+			  <% else %>
+			    <% if ! moisCommencer%>
+				  <% cd = @dateCour.cwday %>
+				  <% if ((cd == 6 and c == 1) or (cd == 7 and c == 2) or (cd == 1 and c == 3) or (cd == 2 and c == 4)or (cd == 3 and c == 5)or (cd == 4 and c == 6) or (cd == 5 and c == 7))%>
+				    <%moisCommencer = true %>
+				  <% end %>
+				<% end %>
+				<% if moisCommencer and !moisFinis %>
+				  <% # recherche de la reservation courrante ou NIL %> 
+  			      <% cellule = @calend_tab.lit_suivant%>
+				  <td class= "tableCalendrier" bgcolor= <%= cellule.couleur%> >
+				   	<span  OnMouseOver= "BulleWrite( ' <%=h cellule.texte_bulle %>');" OnMouseOut ="BulleHide();">
+				   		<%= link_to cellule.texte_cell, :action => cellule.action, :id => cellule.id_action  %>
+					</span>
+				    <% @dateCour +=1 %>
+				  <% if @dateCour.month != m %>
+				    <% moisFinis = true %>
+				  <% end %>
+				<% else%>
+				  <td  class= "tableCalendrier" >
+				<% end %>	
+			  <% end %>
+			  </td>
+			  <% if ((c+1) % 8) == 0 %>
+	    		</tr> <tr>
+	  		  <% end %>
+			<% end %>  
+		</table>
+		
+	  <% m += 1 %>
+	  <% if (m > 12)%>
+	    <%  m = 1 %>
+	    <% @annee += 1%>
+	  <%end%>
+		
+		 
+	  </td>
+	  <% if i % 3 == 0 %>
+	    </tr> <tr>
+	    	
+	  <% end %>
+	<% end %>
+</table>
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>

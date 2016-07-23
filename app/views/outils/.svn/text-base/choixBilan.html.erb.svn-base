@@ -1,0 +1,36 @@
+ <h2>Choix du bilan</h2>
+ <%choix = "choix"%>
+<% form_for(@reservation,  :url => { :action => "bilan" }) do |field_reservation| %>
+<p>
+	<b>type de location</b><br />
+	<select name="type_location">
+		<% ["Meuble","vide","tous"].each do |typ| %>
+	       <option value="<%= typ %>" 
+		<%= 'selected' if typ == "tous" %>>
+		<%= typ %>
+	       </option>
+	<% end %> 	
+	</select>
+</p>	
+
+<p>
+    <b>Date de début</b>
+    <br/>
+    <%= date_select choix , "date_debut" , :order=>[:day ,:month,:year]  %>
+</p>
+<p>
+    <b>Date de fin</b>
+    <br/>
+    <%= date_select choix , "date_fin" , :order=>[:day ,:month,:year] %>
+</p>
+
+<p>
+    <b>proprietaire</b>
+    <br/>
+		  <%= collection_select(choix, "proprio_id", Proprietaire.find(:all, :order => 'nom'), :id, :name_with_initial,{:include_blank => true}) %>
+</p>
+<%= field_reservation.submit  'Bilan' %>
+<%end%>
+<br />
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>

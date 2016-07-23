@@ -1,0 +1,43 @@
+<h1>Nouvelle Facture</h1>
+
+<% form_for(@facture) do |f| %>
+  <%= f.error_messages %>
+
+
+  <p>
+    <%= f.label :date %><br />
+    <%= f.date_select :date %>
+  </p>
+  <p>
+    <%= f.label :emetteur %><br />
+	<%= collection_select("choix" ,"choixEmetteur", @emetteurs,:emetteur, :emetteur) %> choix Liste ou 
+	<%= f.text_field :emetteur %> 
+  </p>
+  <p>
+    <%= f.label :typeDepense %><br />
+	<%= select(:facture, :typeDepense , @typeDepense) %>
+  </p>
+  <p>
+    <%= f.label :soustype %><br />
+	<%= collection_select("choix" ,"choixSoustype", @soustypes,:soustype, :soustype) %> choix Liste ou 
+	<%= f.text_field :soustype %>
+  </p>
+  <p>
+    <%= f.label :montant %><br />
+    <%= f.text_field :montant %>
+  </p>
+ <p>
+    <%= f.label :immeuble %><br />
+	<%= collection_select(:facture, :immeuble_id , @immeubles, :id, :nom,{:include_blank => true}) %> 
+  </p>
+  <p>
+    <%= f.label :remarque %><br />
+    <%= f.text_field :remarque %>
+  </p>
+  <p>
+    <%= f.submit "Creer" %>
+  </p>
+<% end %>
+
+
+<%= link_to 'Retour', factures_path %>

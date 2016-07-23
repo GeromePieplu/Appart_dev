@@ -1,0 +1,46 @@
+<h1>Nouveau paiement pour <%=h @bail.locataire.prenom %> <%=h @bail.locataire.nom %></h1>
+<%= error_messages_for :paiement_bail %>
+<% form_for :bail, @bail, :url => {:action => "create_paiement", :id => @bail.id } do |field_bail| %>
+<% fields_for(@paiement_bail) do |f| %>
+<p>
+    <b>Date paiement</b>
+    <br/>
+	<%= date_select("paiement_bail","date", :order=>[:day ,:month,:year] ) %>
+</p>
+<p>
+    <b>Provenance du paiement</b>
+    <br/>
+	<%= 
+	 @provenance = {:caaf=>'Caaf',:locataire=>'Locataire'}
+	 select(:paiement_bail,:provenance, @provenance,:selected =>:caaf) %>	
+    <!-- Commentaire  --> 
+</p>
+<p>
+    <b>Type Paiement</b>
+    <br/>
+	<%= 
+	 @type_paiement = {:cheque=>'Chèque',:espece=>'Espèce',:virement=>'Virement bancaire',:paypal=>'Paypal'}
+	 select(:paiement_bail,:type_paiement, @type_paiement,:selected =>:cheque) %>	
+    <!-- Commentaire  --> 
+</p>
+<p>
+    <b>Montant</b>
+    <br/>
+    <%= f.text_field :montant %>
+</p>
+<p>
+    <b>Numéro Chèque</b>
+    <br/>
+    <%= f.text_field :numero_cheque %>
+</p>
+<p>
+    <b>Commentaires</b>
+    <br/>
+    <%= f.text_area(:commentaires, :size => "20x3") %>
+</p>
+<% end %>
+<p>
+    <%= field_bail.submit "Creer" %>
+</p>
+<% end %>
+<%= link_to 'Retour',  :action => 'show', :id => @bail.id %>

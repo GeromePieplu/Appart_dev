@@ -1,0 +1,65 @@
+<p>
+  <b>Nom:</b>
+  <%=h @appartement.nom %>
+</p>
+  <p>
+    <b>etat</b><br />
+  	<%=h @appartement.etat %>	
+  </p>	
+  <p>
+    <b>type de location</b><br />
+  	<%=h @appartement.type_location %>	
+  </p>	
+  <p>
+    <b>montant de la caution</b><br />
+    <%=h @appartement.montant_caution %>
+  </p>
+<p>
+  <b>Nom immeuble:</b>
+  <%immeub = if (@appartement.immeuble_id).nil? then  "aucun" else @appartement.immeuble.nom  end %> 
+  <%=h immeub %>
+</p>
+<p>
+  <b>Nom proprietaire:</b>
+  <%=h @proprietaire.nom %>
+</p>
+
+<p>
+  <b>Prenom proprietaire:</b>
+  <%=h @proprietaire.prenom %>
+</p>
+
+<p>
+  <b>Nom gerant:</b>
+  <%=h @gerant.nom %>
+</p>
+
+<p>
+  <b>Prenom gerant:</b>
+  <%=h @gerant.prenom %>
+</p>
+
+
+<p>
+  <b>Adresse:</b>
+  <%=h @appartement.adresse %>
+</p>
+
+<p>
+  <b>Code postal:</b>
+  <%=h @appartement.code_postal %>
+</p>
+
+<p>
+  <b>Ville:</b>
+  <%=h @appartement.ville %>
+</p>
+
+<p>
+  <b>Superficie:</b>
+  <%=h @appartement.superficie %>
+</p>
+
+
+<%= link_to 'Editer', edit_appartement_path(@appartement) %> |
+<%= link_to 'Retour', appartements_path %>

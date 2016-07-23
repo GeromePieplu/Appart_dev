@@ -1,0 +1,2 @@
+module ProprietairesHelper
+end

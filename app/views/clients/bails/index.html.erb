@@ -1,0 +1,54 @@
+<h1>Listing bails</h1><br>
+
+<table>
+  <tr>
+    <th>_Solde_</th> 	
+    <th>_____Dates____</th>
+     <th>Locataire</th>
+    <th>Appartement</th>
+    <th>_Montant_ _loyer_</th>
+    <th>__Montant_ _charge__</th>
+	<th>_Bail_</th>
+	<th>Paiement</th>
+	<th>__Quittance__</th>
+  </tr>
+
+<% @bails.each do |bail| %>
+  <tr>
+    <% total_payer= 0 %>
+    <% paiements = PaiementBail.find(:all, :conditions =>{:date=>bail.date_solde..Date.today,:bail_id => bail.id }) %>
+    <% paiements.each  do |p| %>
+    <% total_payer = total_payer + p.montant %>
+    <% end %>  	
+  	<td><%= bail.solde + bail.apayer_depuis_solde - total_payer %>€</td>
+    <td><%=h dateToChaineCourte(bail.date_debut)+ " au "+ dateToChaineCourte(bail.date_fin) %></td>
+    <td><%=h bail.locataire.prenom %> <%=h bail.locataire.nom %></td>
+    <td><%=h bail.appartement.nom %></td>
+    <td>
+    	<%=h bail.montant_loyer.montant %>€<br>
+		<%= link_to 'nouveau', :action => 'new_loyer', :id => bail.id %>
+	</td>
+    <td>
+    	<%=h bail.montant_charge.montant %>€<br>
+	    <%= link_to 'nouveau', :action => 'new_charge', :id => bail.id %>
+	</td>
+    <td align=center ><%= link_to 'Voir', :action => 'show', :id => bail.id %></td>
+	<td align=center>
+      <%= link_to 'Ajouter', :action => 'new_paiement', :id => bail.id %>
+    </td>
+	<td align=center>
+      <%if bail.quittance_id.nil? == false then %> 
+	    N° <%= bail.quittance.numero %> <%= h getNomMois(bail.quittance.mois.month) %>
+	  <%end%>
+      <%= link_to 'nouvelle', :action => 'new_quittance', :id => bail.id %><br>
+	  <%= link_to 'voir', :action => 'show_quittance', :id => bail.id %><br>
+	  <%= link_to 'selectionner', :action => 'choix_quittance', :id => bail.id %>
+    </td>
+
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Nouveau bail', new_bail_path %>

@@ -1,0 +1,20 @@
+<h2>Choix réservations pour l'appartement <%=@appartement.nom%></h2>
+<% form_for(@reservation, :url => { :action => "historique" }) do |field_reservation| %>
+<p>
+<%= field_reservation.hidden_field :appartement_id %>	
+
+<p>
+    <b>Date de début</b>
+    <br/>
+    <%= date_select :reservation , :date_debut , :order=>[:day ,:month,:year]  %>
+</p>
+<p>
+    <b>Date de fin</b>
+    <br/>
+    <%= date_select :reservation , :date_fin , :order=>[:day ,:month,:year] %>
+</p>
+<%= field_reservation.submit  'Historiques' %>
+<%end%>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>

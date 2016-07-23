@@ -1,0 +1,48 @@
+<h1>Listing des baux</h1><br>
+<%= link_to 'tous', :action => 'tousBails', :id => 2 %><br>
+<table class="tableau_fixe">
+  <tr>
+    <th style="width:70px">Solde</th> 	
+    <th style="width:100px">Date fin</th>
+    <th style="width:100px">Locataire</th>
+    <th style="width:100px">Appartement</th>
+    <th style="width:70px">Montant loyer</th>
+    <th style="width:70px">Montant charge</th>
+    <th style="width:60px">Quittance</th>	
+	<th style="width:70px">Bail</th>
+
+  </tr>
+
+<% @bails.each do |bail| %>
+  <tr class="<%= cycle('table_ligne_paire','table_ligne_impaire') %>">
+    <% total_payer= 0 %>
+    <% paiements = PaiementBail.find(:all, :conditions =>{:date=>bail.date_solde..Date.today,:bail_id => bail.id }) %>
+    <% paiements.each  do |p| %>
+    <% total_payer = total_payer + p.montant %>
+    <% end %>  	
+  	<td><%= formatMonetaire(total_payer- (bail.solde + bail.apayer_depuis_solde)) %></td>
+    <td bgcolor=<%=  getCouleurBail(bail.etat)%>><%=h dateToChaineCourte(bail.date_fin) %></td>
+    <td><%=h bail.locataire.prenom %> <%=h bail.locataire.nom %></td>
+    <td><%=h bail.appartement.nom %></td>
+    <td>
+    	<%= formatMonetaire(bail.montant_loyer.montant) %><br>
+	</td>
+    <td>
+    	<%= formatMonetaire(bail.montant_charge.montant) %><br>
+	</td>
+	<td align=center>
+      <%if bail.quittance_id.nil? == false then %> 
+	    N° <%= link_to bail.quittance.numero, :action => 'show_selected_quittance', :id => bail.quittance_id %> <%= h getNomMois(bail.quittance.mois.month) %>
+	  <%end%>
+    </td>
+    <td align=center >
+    	<%= link_to 'traiter', :action => 'show', :id => bail.id %><br>
+	    <%= link_to 'Editer', :action => 'edit', :id => bail.id %> 
+	</td>		
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Nouveau bail', new_bail_path %>

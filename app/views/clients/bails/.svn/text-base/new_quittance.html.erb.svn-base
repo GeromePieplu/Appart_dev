@@ -1,0 +1,352 @@
+<%= javascript_include_tag "script_money.js" %>
+<% if not @edit then %>
+<% form_for :bail, @bail, :url => {:action => "index", :id => @bail.id }  do |field_bail| end%>
+<%else%>
+	<%= error_messages_for :quittance %>
+	<% form_for :bail, @bail, :url => {:action => "create_quittance", :id => @bail.id } do |field_bail|  %>
+		<% fields_for(@quittance) do |f| %>
+		<%= f.hidden_field :numero %>
+		<%= f.hidden_field :mois %>
+		<%= f.hidden_field :montant_loyer_id %>
+		<%= f.hidden_field :montant_charge_id %>
+	
+	<p>
+	    <%= field_bail.submit "Creer" %>
+	</p>
+	<% end %>	
+    <%end%>
+<%end%>
+<%= link_to_function("Imprimer la quittance", "javascript:print()")%> |
+<%= link_to ' Retour', bails_path %>
+
+<table style="border-collapse: collapse; table-layout: fixed; width: 516pt;" border="0" cellpadding="0" cellspacing="0" width="686">
+ <tbody><tr class="xl44" style="height: 12.75pt;" height="17">
+  <td style="height: 12.75pt; width: 24pt;" align="left" height="17" valign="top" width="32">
+  <span style="position: absolute; z-index: 1; margin-left: 25px; margin-top: 9px; width: 657px; height: 483px;">
+  <%= image_tag("image006.gif",:size =>"689x516")%> 
+  </span>
+  <span style="">
+  <table cellpadding="0" cellspacing="0">
+   <tbody><tr>
+    <td class="xl70" style="height: 12.75pt; width: 24pt;" height="17" width="32">&nbsp;</td>
+   </tr>
+  </tbody></table>
+  </span></td>
+  <td class="xl70" style="width: 25pt;" width="33">&nbsp;</td>
+  <td class="xl70" style="width: 35pt;" width="46">&nbsp;</td>
+  <td class="xl70" style="width: 64pt;" width="85">&nbsp;</td>
+  <td class="xl70" style="width: 60pt;" width="80">&nbsp;</td>
+  <td class="xl70" style="width: 84pt;" width="112">&nbsp;</td>
+  <td class="xl70" style="width: 60pt;" width="80">&nbsp;</td>
+  <td class="xl70" style="width: 60pt;" width="80">&nbsp;</td>
+  <td class="xl70" style="width: 22pt;" width="29">&nbsp;</td>
+  <td class="xl70" style="width: 22pt;" width="29">&nbsp;</td>
+  <td class="xl70" style="width: 60pt;" width="80">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 18pt;" height="24">
+  <td class="xl70" style="height: 18pt;" height="24">&nbsp;</td>
+  <td class="xl71">N°</td>
+  <td class="xl71" x:num="" align="right"><a name="numero"><%= @quittance.numero %></a></td>
+  <td class="xl70">&nbsp;</td>
+  <td colspan="3" class="xl95">QUITTANCE DE LOYER</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl71">€</td>
+  <td colspan="2" class="xl97" x:num="371" x:fmla="=loyer_brut"><%= @montant_loyer.montant + @montant_charge.montant %>€</td>
+ </tr>
+ <tr class="xl44" style="height: 12.75pt;" height="17">
+  <td class="xl70" style="height: 12.75pt;" height="17">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 12.75pt;" height="17">
+  <td class="xl70" style="height: 12.75pt;" height="17">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 15.75pt;" height="21">
+  <td class="xl70" style="height: 15.75pt;" height="21">&nbsp;</td>
+  <td colspan="4" rowspan="3" class="xl100" style="width: 184pt;" width="244">
+  <%= @bail.appartement.proprietaire.prenom%> <%= @bail.appartement.proprietaire.nom%><br>
+  <%= @bail.appartement.proprietaire.adresse%><br>
+  <%= @bail.appartement.proprietaire.code_postal%> <%= @bail.appartement.proprietaire.ville %>
+  </td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl72">Reçu de</td>
+  <td colspan="4" class="xl99"><a name="nom"><%= @bail.locataire.prenom%> <%= @bail.locataire.nom %></a></td>
+ </tr>
+ <tr class="xl44" style="he&nbsp;&nbsp;ight: 12.75pt;" height="17">
+  <td class="xl70" style="height: 12.75pt;" height="17">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 24pt;" height="32">
+  <td class="xl70" style="height: 24pt;" height="32">&nbsp;</td>
+  <td class="xl69" x:str="La somme de ">La somme de <span style="">&nbsp;</span></td>
+  <td colspan="5" class="xl98"><a name="loyer_lettre">&nbsp; 
+  <script>document.writeln(ConvNumberLetter_fr(<%= @montant_loyer.montant + @montant_charge.montant %>, true))</script>
+   </a></td>
+ </tr>
+ <tr class="xl44" style="height: 12.75pt;" height="17">
+  <td class="xl70" style="height: 12.75pt;" height="17">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 12.75pt;" height="17">
+  <td class="xl70" style="height: 12.75pt;" height="17">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 15pt;" height="20">
+  <td class="xl70" style="height: 15pt;" height="20">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td colspan="7" class="xl96" x:str="            Pour loyer des locaux qu' il occupe dans la maison sise "> <span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+  Pour loyer des locaux qu' il
+  occupe dans la maison sise
+  <span style="">&nbsp;</span></td>
+ </tr>
+ <tr class="xl44" style="height: 15.75pt;" height="21">
+  <td class="xl70" style="height: 15.75pt;" height="21">&nbsp;</td>
+  <td class="xl69" colspan="2" style="">Loyer</td>
+  <td class="xl90" align="right"><a name="loyer_net"><%= @montant_loyer.montant %> €</a></td>
+  <td class="xl70">&nbsp;</td>
+  <td colspan="6" class="xl69"><a name="adresse"><%= @bail.appartement.adresse %> <%= @bail.appartement.code_postal%> <%= @bail.appartement.ville %>
+ </tr>
+ <tr class="xl44" style="height: 15.75pt;" height="21">
+  <td class="xl70" style="height: 15.75pt;" height="21">&nbsp;</td>
+  <td class="xl69">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl73">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 15.75pt;" height="21">
+  <td class="xl70" style="height: 15.75pt;" height="21">&nbsp;</td>
+  <td class="xl69">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl73">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 15.75pt;" height="21">
+  <td class="xl70" style="height: 15.75pt;" height="21">&nbsp;</td>
+  <td class="xl69">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl73">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl69" colspan="2" style="">Terme échu le</td>
+  <td colspan="3" class="xl93" x:num="40179" align="right"><a name="terme"><%= getNomMois(@quittance.mois.month) %><%= @quittance.mois.year.to_s %></a></td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 15.75pt;" height="21">
+  <td class="xl70" style="height: 15.75pt;" height="21">&nbsp;</td>
+  <td class="xl69">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl73">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 15.75pt;" height="21">
+  <td class="xl70" style="height: 15.75pt;" height="21">&nbsp;</td>
+  <td class="xl69" colspan="2" style="">Charge</td>
+  <td class="xl90" x:num="40" align="right"><a name="charge"><%= @montant_charge.montant %> €</a></td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 12.75pt;" height="17">
+  <td class="xl70" style="height: 12.75pt;" height="17">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl73">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td colspan="6" class="xl92" style="width: 308pt;" x:str="Dont quittance sans préjudice du terme courant et " width="410">Dont quittance
+  sans préjudice du terme courant et<span style="">&nbsp;</span></td>
+ </tr>
+ <tr class="xl44" style="height: 12.75pt;" height="17">
+  <td class="xl70" style="height: 12.75pt;" height="17">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl73">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70" colspan="3" style="">sous réserve de tous mes
+  droits.</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 12.75pt;" height="17">
+  <td class="xl70" style="height: 12.75pt;" height="17">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl73">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 15.75pt;" height="21">
+  <td class="xl70" style="height: 15.75pt;" height="21">&nbsp;</td>
+  <td class="xl69" colspan="2" style="">Total</td>
+  <td class="xl90" x:num="371" align="right"><a name="loyer_brut"><%= @montant_loyer.montant + @montant_charge.montant %> €</a></td>
+  <td class="xl74">&nbsp;</td>
+  <td class="xl76">Toulouse<span style="">&nbsp; </span>le</td>
+  <td colspan="4" class="xl94" x:num="40200" x:fmla="=TODAY()" align="right"><a name="date"><%= dateToChaineLongue( Date.today ) %></a></td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 12.75pt;" height="17">
+  <td class="xl70" style="height: 12.75pt;" height="17">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 12.75pt;" height="17">
+  <td class="xl70" style="height: 12.75pt;" height="17">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 16.5pt;" height="22">
+  <td class="xl70" style="height: 16.5pt;" height="22">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+  <td class="xl70">&nbsp;</td>
+ </tr>
+ <tr class="xl44" style="height: 12.75pt;" height="17">
+  <td class="xl70" style="height: 37.75pt;" height="17">&nbsp;</td>
+  <td colspan="10" rowspan="2" class="xl91" style="width: 492pt;" width="654">NOTA Nul ne
+  peut déménager sans avoir prouvé par une quittance du Percepteur qu'il a
+  acquitté toutes ses impositions, sans avoir reçu ou donné congé dans les
+  délais prescrits et sans avoir fait toutes les réparations locatives à sa
+  charge.</td>
+ </tr>
+ <tr style="height: 17.25pt;" height="23">
+  <td class="xl75" style="height: 17.25pt;" height="23"><br>
+</td>
+ </tr>
+ <tr style="height: 12.75pt;" height="17">
+  <td colspan="11" style="height: 12.75pt;" height="17"><br>
+</td>
+ </tr>
+ <!--[if supportMisalignedColumns]-->
+ <tr style="display: none;" height="0">
+  <td style="width: 24pt;" width="32"><br>
+      <br>
+</td>
+  <td style="width: 25pt;" width="33"><br>
+      <br>
+</td>
+  <td style="width: 35pt;" width="46"><br>
+      <br>
+</td>
+  <td style="width: 64pt;" width="85"><br>
+      <br>
+</td>
+  <td style="width: 60pt;" width="80"><br>
+      <br>
+</td>
+  <td style="width: 84pt;" width="112"><br>
+      <br>
+</td>
+  <td style="width: 60pt;" width="80"><br>
+      <br>
+</td>
+  <td style="width: 60pt;" width="80"><br>
+      <br>
+</td>
+  <td style="width: 22pt;" width="29"><br>
+      <br>
+</td>
+  <td style="width: 22pt;" width="29"><br>
+      <br>
+</td>
+  <td style="width: 60pt;" width="80"><br>
+      <br>
+</td>
+ </tr>
+</tbody></table>
+
+</body></html>	
+
+
+

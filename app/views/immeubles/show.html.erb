@@ -1,0 +1,28 @@
+<p>
+  <b>Nom:</b>
+  <%=h @immeubles.nom %>
+</p>
+
+<p>
+  <b>Adresse:</b>
+  <%=h @immeubles.adresse %>
+</p>
+
+<p>
+  <b>Code postal:</b>
+  <%=h @immeubles.code_postal %>
+</p>
+
+<p>
+  <b>Ville:</b>
+  <%=h @immeubles.ville %>
+</p>
+
+<p>
+  <b>Date achat:</b>
+  <%=h @immeubles.date_achat %>
+</p>
+
+
+<%= link_to 'Edit', edit_immeuble_path(@immeubles) %> |
+<%= link_to 'Back', immeuble_path %>

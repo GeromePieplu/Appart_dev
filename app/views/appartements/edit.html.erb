@@ -1,0 +1,77 @@
+<h1>Editing appartement</h1>
+
+<%= error_messages_for :appartement %>
+<%@t= @appartement.type_location%>
+<% form_for(@appartement) do |f| %>
+  <p>
+    <b>Nom</b><br />
+    <%= f.text_field :nom %>
+  </p>
+  <p>  
+  <b>etat</b><br />
+  <select name="appartement[etat]">
+ 	<% @etat.each do |typ| %>
+	       <option value="<%= typ %>" 
+		<%= 'selected' if typ == @t %>>
+		<%= typ %>
+	       </option>
+	<% end %> 	
+  </select>
+  </p>	  
+  <p>
+  <b>type de location</b><br />
+  <select name="appartement[type_location]">
+ 	<% @type_location.each do |typ| %>
+	       <option value="<%= typ %>" 
+		<%= 'selected' if typ == @t %>>
+		<%= typ %>
+	       </option>
+	<% end %> 	
+  </select>
+  </p>	
+  <p>
+    <b>montant de la caution</b><br />
+    <%= f.text_field :montant_caution %>
+  </p>
+   <p>
+    <b>choix immeuble</b><br />
+	<%= collection_select(:appartement, :immeuble_id, Immeuble.find(:all, :order => 'nom'), :id, :nom,{:include_blank => true}) %>	
+  </p> 
+
+    <b>choix proprietaire</b><br />
+	<%= collection_select(:appartement, :proprietaire_id, Proprietaire.find(:all, :order => 'nom'), :id, :name_with_initial,{:include_blank => true}) %>	
+  </p>
+
+  <p>
+    <b>choix gerant</b><br />
+    	<%= collection_select(:appartement, :gerant_id, Proprietaire.find(:all, :order => 'nom'), :id, :name_with_initial,{:include_blank => true}) %>
+  </p>
+
+
+  <p>
+    <b>Adresse</b><br />
+    <%= f.text_area :adresse %>
+  </p>
+
+  <p>
+    <b>Code postal</b><br />
+    <%= f.text_field :code_postal %>
+  </p>
+
+  <p>
+    <b>Ville</b><br />
+    <%= f.text_field :ville %>
+  </p>
+
+  <p>
+    <b>Superficie</b><br />
+    <%= f.text_field :superficie %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Voir', @appartement %> |
+<%= link_to 'Retour', appartements_path %>

@@ -1,0 +1,49 @@
+<h1>Nouvelle depense</h1>
+
+<% form_for(@depense) do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :facture_id %>
+<br />
+<h2>Facture</h2>
+  <p>
+    date facture: 
+    <%= @facture.date %>
+  </p>
+  <p>
+    emetteur: 
+	<%= @facture.emetteur %> 
+  </p>
+  <p>
+    typeDepense :
+	<%= @facture.typeDepense %>
+  </p>
+  <p>
+    soustype: 
+	<%= @facture.soustype %>
+  </p>
+  <p>
+    montant_total: 
+    <%= @facture.montant %>
+  </p>
+<h2>Depense pour un appartement</h2>
+   <p>
+    <%= f.label :appartement_id %><br />
+	<%= collection_select(:depense, :appartement_id, @appartements,:id, :nom, {:include_blank => false}) %>	
+  </p>
+   <p>
+    <%= f.label :repartition %><br />
+    <%= f.text_field :repartition %>
+  </p>
+  <p>
+    <%= f.label :montant_reparti %><br />
+    <%= f.text_field :montant_reparti %>
+  </p>
+   <p>
+    <%= f.label :remarque %><br />
+    <%= f.text_field :remarque %>
+  </p>  
+  <p>
+    <%= f.submit "Creer" %>
+  </p>  
+<% end %>  
+<%= link_to 'Retour', :controller=>"factures", :action=>"show", :id=>@facture.id %>

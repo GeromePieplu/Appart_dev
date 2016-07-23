@@ -1,0 +1,8 @@
+Listing des dépenses pour <%= @immeuble.nom %>
+situé: <%= @immeuble.adresse %> <%= @immeuble.code_postal %> <%= @immeuble.ville %>
+periode du <%=h dateToChaineCourte(@date_debut)%> au <%=h dateToChaineCourte(@date_fin)%>
+type location:  <%=h @choixTypeLoc%>
+n° facture;Date;Emetteur;Type;Appartement;repartion;Montant;Remarque
+<% for dep in @depenses %><%= dep.facture.id  %>;<%=h dep.facture.date %>;<%=h dep.facture.emetteur %>;<%=h dep.typeDepense %>;<%=h dep.appartement.nom %>;<%=h formatCsv(dep.repartition) %>;<%= formatCsv(dep.montant_reparti) %>;<%=h dep.remarque %>
+<% end %>
+

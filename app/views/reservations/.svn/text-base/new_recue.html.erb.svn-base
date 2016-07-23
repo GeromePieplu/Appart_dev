@@ -1,0 +1,33 @@
+<h1>Nouveau reçu</h1>
+<%= error_messages_for :recue %>
+<% form_for :reservation, @reservation, :url => {:action => "create_recue", :id => @reservation.id } do |field_reservation| %>
+<% fields_for(@recue) do |f| %>
+
+<p>
+    <b>Date du reçu</b>
+    <br/>
+	<%= date_select("recue","date_recue", :order=>[:day ,:month,:year] ) %>
+</p>
+<p>
+    <b>Date début période</b>
+    <br/>
+	<%= date_select("recue","date_debut", :order=>[:day ,:month,:year] ) %>
+</p>
+<p>
+    <b>Date fin période</b>
+    <br/>
+	<%= date_select("recue","date_fin", :order=>[:day ,:month,:year] ) %>
+</p>
+<p>
+    <b>Montant</b>
+    <br/>
+    <%= f.text_field :montant %>
+</p>
+<% end %>
+<p>
+    <%= field_reservation.submit "Creer" %>
+</p>
+<% end %>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>

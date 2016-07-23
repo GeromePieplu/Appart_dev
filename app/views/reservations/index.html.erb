@@ -1,0 +1,37 @@
+<h1 class="title">reservations</h1>
+
+
+<h3 style="font-size: 14pt; background-color: rgb(255, 204, 102);" align=center  > Appartement meublé </h3>
+
+<FONT SIZE=2 STYLE="font-size: 12pt">
+
+</FONT>
+<%= link_to 'périodes libres', :action => 'calend_libre', :id => 1 %> &nbsp | &nbsp  
+<%= link_to 'périodes libres tout appartement', :action => 'calend_libre', :id => 2 %>
+<table>
+    <tr>
+        <th>
+            Nom appartement
+        </th>
+     </tr>
+	<% ligneCouleur = '#E0E0E0'  %>
+	<% for appart in @appartements %>
+    	<tr style="background-color: <%= ligneCouleur %>">
+			<td align=center>
+            	<%= link_to appart.nom, :action => 'appart_reservation', :id => appart.id %>
+       		</td>
+		
+    	</tr>
+	<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end %>
+	<% end %>
+	<tr style="background-color: <%= ligneCouleur %>">
+		<td align=center>
+        	<%= link_to 'tous les appartements', :action => 'toute_reservations', :id => appart.id %>
+   		</td>
+	
+	</tr>
+	
+</table>
+<br/><br/><br/>
+
+

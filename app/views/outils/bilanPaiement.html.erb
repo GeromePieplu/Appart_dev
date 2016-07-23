@@ -1,0 +1,99 @@
+<h2 class="title">Listing paiements </B></h2>
+<h4>periode du <%=h dateToChaineCourte(@date_debut)%> au <%=h dateToChaineCourte(@date_fin)%></h4>
+<%total_paiement_meublé = 0%>
+<%total_paiement_partiel = 0%>
+<%first = true%>
+<%typeCourant = ""%>
+</FONT>
+<table>
+	<thead>		
+    <tr>
+        <th>
+            Numero paiement
+        </th>
+
+        <th>
+            date
+        </th>
+        <th>
+            appartement
+        </th>
+
+		<th>
+            montant
+        </th>
+		<th> 
+			type 
+		</th>
+		<th>
+			remarques
+		</th>
+    </tr>
+	</thead>
+	
+	<tbody>
+	<% ligneCouleur = '#E0E0E0'  %>
+	<%if not @paiements.nil? then %>
+	  <% for paiement in @paiements %>
+	    <%if first == true then %>
+	      <%typeCourant = paiement.type_paiement%>
+	      <%first = false %>
+	    <%end%>
+	    <%if typeCourant != paiement.type_paiement then %>
+          <tr style="background-color: #E6E2AF" class="<%= cycle("bodd", "odd") %>" >
+          <td></td>	
+    	  <td>
+              Total <%=h typeCourant %>
+          </td>
+    		
+          <td>
+              <%= formatMonetaire(total_paiement_partiel) %>
+          </td>
+          </tr>
+		  <%total_paiement_partiel = 0%>	
+	    <%end%>
+	     <%typeCourant = paiement.type_paiement %>
+	     <% total_paiement_meublé += paiement.montant %>
+	     <%total_paiement_partiel += paiement.montant%>	
+        <tr style="background-color: <%= ligneCouleur %>" class="<%= cycle("bodd", "odd") %>" >
+    	  <td>
+              <%=h paiement.id %>
+          </td>
+    		
+          <td>
+              <%=h paiement.date_paiement %>
+          </td>
+          <td>
+              <%=h paiement.reservation.appartement.nom %>
+          </td>
+          <td>
+              <%=h paiement.montant %>
+          </td>
+          <td>
+              <%=h paiement.type_paiement %>
+          </td>
+          <td>
+              <%=h paiement.commentaires %>
+          </td>                
+      </tr>
+	  <% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+      <% end %>
+  <% end %>
+      <tr style="background-color: #E6E2AF" >
+	  <td></td>
+	  <td>
+          Total <%=h typeCourant %>
+      </td>
+		
+      <td>
+          <%= formatMonetaire(total_paiement_partiel) %>
+      </td>
+   </tr>
+  </tbody>
+</table>
+<br>	
+<h4>Total paiements meublé =   <%= formatMonetaire(total_paiement_meublé) %>  </h4>
+
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Outils', :controller => 'outils', :action=> 'index' %>

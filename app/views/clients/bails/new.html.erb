@@ -1,0 +1,38 @@
+<h1>New bail</h1>
+
+<% form_for(@bail) do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :date_debut %><br />
+    <%= f.date_select :date_debut, :order=>[:day ,:month,:year],:start_year=>1995, :end_year=> 2015  %>
+  </p>
+   <p>
+    <%= f.label :caution %><br />
+    <%= f.text_field :caution %>
+  </p>
+  <p>
+    <%= f.label :indice_reference %><br />
+    <%= f.text_field :indice_reference %>
+  </p>
+  <p>
+    <%= f.label :locataire_id %><br />
+	  <%= collection_select(:bail, :locataire_id, Client.find(:all, :order => 'nom'), :id, :name_with_initial,{:include_blank => false}) %>	
+  </p>
+  <p>
+    <%= f.label :appartement_id %><br />
+	  <%= collection_select(:bail, :appartement_id, Appartement.find(:all, :order => 'nom', :conditions =>{:type_location => 'nonMeublé'}), :id, :nom ,{:include_blank => false}) %>
+  </p>
+  <p>
+    <%= f.label :montant_loyer %><br />
+    <%=  text_field "montant", "montant_loyer" %>
+  </p>
+  <p>
+    <%= f.label :montant_charge %><br />
+    <%= text_field "montant", "montant_charge" %>
+  </p>
+  <p>
+    <%= f.submit 'Creer' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', bails_path %>

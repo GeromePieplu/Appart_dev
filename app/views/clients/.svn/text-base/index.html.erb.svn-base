@@ -1,0 +1,30 @@
+<h1>Listing clients</h1>
+
+<table>
+	<thead>
+	  <tr>
+	    <th>Nom</th>
+	    <th>Prenom</th>
+	    <th>Ville</th>
+		<th>Pays</th>
+		<th class="table_link"></th><th class="table_link"></th><th class="table_link"></th>
+	  </tr>
+	</thead>
+<tbody>
+<% for client in @clients %>
+  <tr class="<%= cycle("bodd", "odd") %>">
+    <td><%=h client.nom %></td>
+    <td><%=h client.prenom %></td>
+    <td><%=h client.ville %></td>
+	<td><%=h client.pays %></td>	
+    <td class="table_link"><%= link_to 'Voir', client %></td>
+    <td class="table_link"><%= link_to 'Editer', edit_client_path(client) %></td>
+    <td class="table_link"><%= link_to 'Supprimer', client, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</tbody>
+</table>
+
+<br />
+
+<%= link_to 'Nouveau client', new_client_path %>

@@ -1,0 +1,70 @@
+<h1>Listing des dépenses pour <%= @appt.nom %></h1>
+<br />
+<%= link_to 'Retour', :back %>
+<br />
+
+<table>
+  <tr>
+  	<th>n° facture</th>>
+    <th>Date</th>
+    <th>Emetteur</th>
+    <th>Type</th>
+    <th>repartion</th>
+    <th>Montant</th>
+    <th>Remarque</th>
+    <th>Total</th>
+    <th>Montant</th>
+  </tr>
+<% montantTotal = 0 %>
+<% sousMontant = 0 %>
+<%oldType = ""%>
+<% for dep in @depenses %>
+  <%if oldType != dep.typeDepense and sousMontant != 0 then%>
+  <tr bgcolor= #98E2D8>
+  	<td></td>
+  	<td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><%=oldType%></td>
+    <td><%= formatMonetaire(sousMontant) %></td>
+  </tr>	
+    <%sousMontant = 0%>
+    <%oldType = dep.typeDepense%>
+  <%end%>
+  <tr>
+  	<td><%= link_to dep.facture.id, :action => "show", :id => dep.facture.id  %></td>
+    <td><%=h dep.facture.date %></td>
+    <td><%=h dep.facture.emetteur %></td>
+    <td><%=h dep.typeDepense %></td>
+    <td><%=h dep.repartition %></td>
+    <td><%= formatMonetaire(dep.montant_reparti) %></td>
+    <td><%=h dep.remarque %></td>
+  </tr>
+    <% montantTotal += dep.montant_reparti%>
+    <%oldType = dep.typeDepense%>
+    <%sousMontant += dep.montant_reparti%>
+<% end %>
+ <tr bgcolor= #98E2D8>
+ 	<td></td>
+  	<td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><%=oldType%></td>
+    <td><%= formatMonetaire(sousMontant) %></td>
+  </tr>	
+</table>
+
+<br />
+Montant total
+<%= formatMonetaire(montantTotal)%>
+<br />
+
+<br>
+<%= link_to 'Retour', :back %>&nbsp;&nbsp;
+<%= link_to 'Factures', factures_path %>

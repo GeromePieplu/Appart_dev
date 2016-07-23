@@ -1,0 +1,39 @@
+<%= link_to 'Nouvel appartement', new_appartement_path %> | <%= link_to 'Editer Proprietaire', :controller=>'proprietaires' %> 
+ | <%= link_to 'Editer immeuble', :controller=>'immeubles' %>
+ <br /><br />
+<h1>Listing appartements</h1>
+<br />
+<table>
+  <tr>
+    <th>Nom</th>
+    <th>Immeuble</th>
+    <th>Nom proprietaire</th>
+    <th>Nom gerant</th>
+    <th>Adresse</th>
+    <th>Code postal</th>
+    <th>Ville</th>
+   </tr>
+
+<% for appartement in @appartements %>
+  <tr>
+  	<%@proprietaire = Proprietaire.find(appartement.proprietaire_id)%>
+	<%@gerant = Proprietaire.find(appartement.gerant_id)%>
+    <td><%=h appartement.nom %></td>
+    <%immeub = if (appartement.immeuble_id).nil? then  "aucun" else appartement.immeuble.nom  end %>
+    <td><%=h immeub %></td>
+    <td><%=h @proprietaire.prenom + " " +  @proprietaire.nom %></td>
+    <td><%=h @gerant.prenom + " " + @gerant.nom %></td>
+    <td><%=h appartement.adresse %></td>
+    <td><%=h appartement.code_postal %></td>
+    <td><%=h appartement.ville %></td>
+    <td><%= link_to 'Voir',:action => 'show', :id =>  appartement %></td>
+    <td><%= link_to 'Editer',:action => 'edit', :id =>  appartement %></td>
+    <td><%= link_to 'Supprimer' , appartement , :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Nouvel appartement', new_appartement_path %> | <%= link_to 'Editer Proprietaire', :controller=>'proprietaires' %> 
+ | <%= link_to 'Editer immeuble', :controller=>'immeubles' %>

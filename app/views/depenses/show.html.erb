@@ -1,0 +1,30 @@
+<h1>Voir la Depense</h1><br>
+<p>
+  <b>numero depense:</b>
+  <%=h @depense.id %>
+</p>
+
+<p>
+  <b>Appartement:</b>
+  <%=h @depense.appartement.nom %>
+</p>
+
+
+<p>
+  <b>Repartition:</b>
+  <%=h @depense.repartition %>
+</p>
+
+<p>
+  <b>Montant reparti:</b>
+  <%=h @depense.montant_reparti %>
+</p>
+
+<p>
+  <b>Remarque:</b>
+  <%=h @depense.remarque %>
+</p>
+
+
+<%= link_to 'Editer', edit_depense_path(@depense) %> |
+<%= link_to 'Retour', :controller=>"factures", :action=>"show", :id=>@depense.facture_id %>

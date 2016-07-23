@@ -1,0 +1,32 @@
+<h1>Editing immeubles</h1>
+
+<% form_for(@immeubles) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :nom %><br />
+    <%= f.text_field :nom %>
+  </p>
+  <p>
+    <%= f.label :adresse %><br />
+    <%= f.text_area :adresse %>
+  </p>
+  <p>
+    <%= f.label :code_postal %><br />
+    <%= f.text_field :code_postal %>
+  </p>
+  <p>
+    <%= f.label :ville %><br />
+    <%= f.text_field :ville %>
+  </p>
+  <p>
+    <%= f.label :date_achat %><br />
+    <%= f.date_select :date_achat, :start_year => 1990 %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @immeubles %> |
+<%= link_to 'Back', immeubles_path %>

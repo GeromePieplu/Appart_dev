@@ -1,0 +1,217 @@
+# This file is auto-generated from the current state of the database. Instead of editing this file, 
+# please use the migrations feature of Active Record to incrementally modify your database, and
+# then regenerate this schema definition.
+#
+# Note that this schema.rb definition is the authoritative source for your database schema. If you need
+# to create the application database on another system, you should be using db:schema:load, not running
+# all the migrations from scratch. The latter is a flawed and unsustainable approach (the more migrations
+# you'll amass, the slower it'll run and the greater likelihood for issues).
+#
+# It's strongly recommended to check this file into your version control system.
+
+ActiveRecord::Schema.define(:version => 20140419170503) do
+
+  create_table "appartements", :force => true do |t|
+    t.string  "nom"
+    t.text    "adresse"
+    t.integer "code_postal"
+    t.string  "ville"
+    t.float   "superficie"
+    t.string  "occupationAnneePaire",   :default => "0000000000000000000000000000000000000000000000000000"
+    t.string  "occupationAnneeImpaire", :default => "0000000000000000000000000000000000000000000000000000"
+    t.float   "montant_caution"
+    t.string  "type_location",          :default => "semaine",                                              :null => false
+    t.integer "proprietaire_id",        :default => 1
+    t.integer "gerant_id",              :default => 1
+    t.string  "etat",                   :default => "en_location",                                          :null => false
+    t.integer "immeuble_id"
+  end
+
+  create_table "bails", :force => true do |t|
+    t.date     "date_debut"
+    t.date     "date_fin"
+    t.integer  "etat"
+    t.integer  "caution"
+    t.float    "indice_reference"
+    t.integer  "locataire_id"
+    t.integer  "appartement_id"
+    t.integer  "montant_loyer_id"
+    t.integer  "montant_charge_id"
+    t.integer  "quittance_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "solde"
+    t.date     "date_solde"
+    t.float    "apayer_depuis_solde"
+    t.date     "date_maj_apayer"
+  end
+
+  create_table "clients", :force => true do |t|
+    t.string  "nom"
+    t.string  "prenom"
+    t.text    "adresse"
+    t.string  "code_postal"
+    t.string  "ville"
+    t.string  "telephone"
+    t.string  "email"
+    t.string  "pays",        :default => "France"
+    t.integer "nouveau",     :default => 0,        :null => false
+  end
+
+  create_table "depenses", :force => true do |t|
+    t.integer  "appartement_id"
+    t.float    "repartition",     :default => 1.0
+    t.float    "montant_reparti"
+    t.string   "remarque"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "facture_id"
+    t.string   "typeDepense"
+  end
+
+  create_table "factures", :force => true do |t|
+    t.date     "date"
+    t.string   "emetteur"
+    t.string   "typeDepense"
+    t.string   "soustype"
+    t.float    "montant"
+    t.integer  "immeuble_id"
+    t.string   "remarque"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.date     "date_banque"
+    t.string   "ref_banque"
+  end
+
+  create_table "immeubles", :force => true do |t|
+    t.string   "nom"
+    t.text     "adresse"
+    t.integer  "code_postal"
+    t.string   "ville"
+    t.date     "date_achat"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "montant_charges", :force => true do |t|
+    t.date     "date_debut"
+    t.float    "montant"
+    t.integer  "bail_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.date     "date_fin"
+  end
+
+  create_table "montant_loyers", :force => true do |t|
+    t.date     "date_debut"
+    t.float    "montant"
+    t.integer  "bail_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.date     "date_fin"
+  end
+
+  create_table "paiement_bails", :force => true do |t|
+    t.date     "date"
+    t.string   "type_paiement"
+    t.float    "montant"
+    t.string   "provenance"
+    t.integer  "numero_cheque"
+    t.integer  "bail_id"
+    t.string   "commentaires"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "paiements", :force => true do |t|
+    t.date    "date_paiement"
+    t.string  "type_paiement"
+    t.float   "montant"
+    t.string  "numero_cheque"
+    t.integer "reservation_id"
+    t.string  "commentaires"
+    t.date    "date_banque"
+    t.string  "ref_banque"
+  end
+
+  create_table "proprietaires", :force => true do |t|
+    t.string   "nom"
+    t.string   "prenom"
+    t.text     "adresse"
+    t.string   "code_postal"
+    t.string   "ville"
+    t.string   "telephone"
+    t.string   "email"
+    t.string   "pays",        :default => "France"
+    t.string   "signature",                          :null => false
+    t.string   "login_name",  :default => "nologin", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "quittances", :force => true do |t|
+    t.integer  "numero"
+    t.date     "mois"
+    t.integer  "montant_loyer_id"
+    t.integer  "montant_charge_id"
+    t.integer  "bail_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "recues", :force => true do |t|
+    t.date    "date_recue"
+    t.float   "montant"
+    t.integer "reservation_id"
+    t.date    "date_debut"
+    t.date    "date_fin"
+  end
+
+  create_table "repartitions", :force => true do |t|
+    t.string   "nom"
+    t.float    "valeur"
+    t.integer  "appartement_id"
+    t.integer  "immeuble_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reservations", :force => true do |t|
+    t.float   "prix"
+    t.date    "date_ouverture"
+    t.date    "date_debut"
+    t.date    "date_fin"
+    t.string  "etat"
+    t.integer "nombre_personne"
+    t.float   "acompte"
+    t.integer "client_id"
+    t.integer "appartement_id"
+    t.string  "commentaire"
+    t.integer "numEtat"
+    t.string  "type_location",    :default => "Semaine_1_paiement"
+    t.float   "montant_total"
+    t.string  "cautionEncaissee", :default => "non encaissée",     :null => false
+  end
+
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "users", :force => true do |t|
+    t.string   "login"
+    t.string   "email"
+    t.string   "crypted_password",          :limit => 40
+    t.string   "salt",                      :limit => 40
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "remember_token"
+    t.datetime "remember_token_expires_at"
+  end
+
+end

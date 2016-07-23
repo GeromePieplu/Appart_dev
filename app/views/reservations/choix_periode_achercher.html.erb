@@ -1,0 +1,22 @@
+<h2>Choix périodes pour recherche appartement libre</h2>
+<% form_for(@reservation, :url => { :action => "cherche_appart_libre" }) do |field_reservation| %>
+<p>
+<p>
+	<b>Choix liste appartement</b> 
+	<br/>
+    <%= select("choix","typeAppart", ['appart_proprietaire','appart_gerance','tout_appart']) %>
+	<br/>
+    <b>Date de début</b>
+    <br/>
+    <%= date_select :reservation , :date_debut , :order=>[:day ,:month,:year]  %>
+</p>
+<p>
+    <b>Date de fin</b>
+    <br/>
+    <%= date_select :reservation , :date_fin , :order=>[:day ,:month,:year] %>
+</p>
+<%= field_reservation.submit  'Rechercher' %>
+<%end%>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>

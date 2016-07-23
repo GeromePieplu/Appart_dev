@@ -1,0 +1,244 @@
+<h1 class="title">Bilan propriétaire : <%= @proprietaire.prenom%> <%= @proprietaire.nom%></h1>
+<h4>pour la période du <%= dateToChaineCourte(@date_debut) %> au <%= dateToChaineCourte(@date_fin)%></h4><br>
+
+<% montant_total_synthese = 0 %>
+<% montant_total_libre = 0 %>
+<% charge_total_meuble = 0 %>
+<% charge_total_vide = 0 %>
+
+
+<% for appartement in @appartements %>
+	<% montant_total = 0 %>
+	<% charge_total_appt = Depense.sum(:montant_reparti, :conditions => {:appartement_id => appartement.id, :facture_id => Facture.find(:all,:conditions =>{:date =>@date_debut..@date_fin})}) %>
+	<% travaux_total_appt = Depense.sum(:montant_reparti, :conditions => {:appartement_id => appartement.id, :facture_id => Facture.find(:all,:conditions =>{:date =>@date_debut..@date_fin, :typeDepense => "Travaux"})}) %>	
+	<%if appartement.type_location == "nonMeublé" then%>
+	    <% charge_total_vide += charge_total_appt %>
+		<% montant_total = PaiementBail.sum(:montant, :conditions => {:date =>@date_debut..@date_fin , :bail_id => Bail.find(:all,:conditions =>{:appartement_id => appartement.id}) } )%>		    
+        <%if charge_total_appt != 0 or travaux_total_appt != 0 or montant_total != 0 then%>
+			<h4 style="font-size: 14pt; background-color: rgb(255, 204, 102);" align=center  ><%=h appartement.nom %></h4>
+			<table>
+				<thead>
+				<tr>
+				<th>
+				Montant encaissé 
+				</th>
+				<th> 
+				Charges
+				</th>
+				<th> 
+				revenu mensuel net(hors trav) 
+				</th>
+				<th>
+				travaux	
+				</th>	
+				</tr>
+				</thead>
+				
+				<tbody>
+				<% ligneCouleur = '#E0E0E0'  %>
+				<%if @admin then%>
+				<%else%>
+				<%end%>	
+				<tr style="background-color: <%= ligneCouleur %>">
+				<td>
+	
+				  <%= formatMonetaire(montant_total) %>
+				</td>
+				<td>
+				  <%= formatMonetaire(charge_total_appt - travaux_total_appt) %>	
+				</td>
+				<td>
+				  <%= formatMonetaire((montant_total-(charge_total_appt - travaux_total_appt)) / @nb_mois) %>	
+				</td>
+				<td>
+				  <%= formatMonetaire(travaux_total_appt) %>	
+				</td>
+				</tr>
+				<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+				</tbody>
+			</table>
+		    <% montant_total_libre += montant_total %>
+		<%end%>    
+	<%else%>
+			<%if @admin then%>
+				<% reservations = appartement.reservations.find(:all) %>
+			<%else%>
+				<% reservations = appartement.reservations.find(:all,:conditions =>{:numEtat=>[0,1,2,3,4,5]}) %>
+			<%end%>	
+			<% for reservation in reservations %>
+				<%for paiement in Paiement.find(:all,:conditions =>{:reservation_id => reservation.id,:date_paiement=>@date_debut..@date_fin})%>
+				  <% montant_total += paiement.montant %>
+				<% end %> 
+			<% end %>	  
+	
+        <%if charge_total_appt != 0 or travaux_total_appt != 0 or montant_total != 0 then%>
+		    <% charge_total_meuble += charge_total_appt %>
+			<h4 style="font-size: 14pt; background-color: rgb(255, 204, 102);" align=center  ><%=h appartement.nom %></h4>
+			<table>
+				<thead>
+				<tr>
+				<th>
+				Montant encaissé
+				</th>
+				<th> 
+				Charges
+				</th>
+				<th> 
+				revenu mensuel net(hors trav) 
+				</th>
+				<th>
+				travaux	
+				</th>	
+				</tr>
+				</thead>
+				
+				<tbody>
+				<% ligneCouleur = '#E0E0E0'  %>
+
+			<tr style="background-color: <%= ligneCouleur %>">
+			<td>
+			  <%= formatMonetaire(montant_total) %>
+			</td>
+			<td>
+			  <%= formatMonetaire(charge_total_appt - travaux_total_appt) %>	
+			</td>
+			<td>
+			  <%= formatMonetaire((montant_total-(charge_total_appt - travaux_total_appt)) / @nb_mois) %>	
+			</td>
+			<td>
+			  <%= formatMonetaire(travaux_total_appt) %>	
+			</td>
+			</tr>
+			<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+			</tbody>
+			</table>
+			<% #mise à jours des variables pour la synthese de tous les appart%>
+			<% montant_total_synthese += montant_total %>
+		<% end %>  
+	<%end%>
+<br/><br/><br/>
+<% end %>
+  <% if @type_location == "Meuble" or @type_location == "tous" then %>
+	<h4 style="font-size: 14pt; background-color: rgb(255, 204, 102);" align=center  > Synthèse Meublé</h4>
+	<table>
+		<thead>
+		<tr>
+		<th>
+		Montant encaissé
+		</th>
+		<th>
+		Charges et travaux
+		</th>
+		<th>
+		revenue net
+		</th>
+		<th>
+		revenue mensuel net
+		</th>
+		</tr>
+		</thead>
+		
+		<tbody>
+		<% ligneCouleur = '#E0E0E0'  %>
+		<tr style="background-color: <%= ligneCouleur %>">
+		<td>
+		  <%= formatMonetaire(montant_total_synthese) %>
+		</td>
+		<td>
+		  <%= formatMonetaire(charge_total_meuble) %>
+		</td>
+		<td>
+		  <%= formatMonetaire(montant_total_synthese - charge_total_meuble ) %>
+		</td>
+		<td>
+		  <%= formatMonetaire(( montant_total_synthese - charge_total_meuble ) / @nb_mois ) %>
+		</td>
+		</tr>
+		<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+		</tbody>
+	</table>
+    <br>	
+  <% end %>
+  <% if @type_location == "vide" or @type_location == "tous" then %>
+	<h4 style="font-size: 14pt; background-color: rgb(255, 204, 102);" align=center  > Synthèse nonMeublé</h4>
+	<table>
+		<thead>
+		<tr>
+		<th>
+		Montant encaissé
+		</th>
+		<th>
+		Charges et travaux
+		</th>
+		<th>
+		revenue net
+		</th>
+		<th>
+		revenue mensuel net
+		</th>
+
+		</tr>
+		</thead>
+		
+		<tbody>
+		<% ligneCouleur = '#E0E0E0'  %>
+		<tr style="background-color: <%= ligneCouleur %>">
+		<td>
+		  <%= formatMonetaire(montant_total_libre) %>
+		</td>
+		<td>
+		<%= formatMonetaire(charge_total_vide) %>
+		</td>
+		<td>
+		  <%= formatMonetaire(montant_total_libre - charge_total_vide ) %>
+		</td>
+		<td>
+		  <%= formatMonetaire((montant_total_libre - charge_total_vide ) / @nb_mois ) %>
+		</td>
+		</tr>
+		<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+		</tbody>
+	</table>
+    <br>	
+    <%end%>
+	<h4 style="font-size: 14pt; background-color: rgb(255, 204, 102);" align=center  > Synthèse générale</h4>
+	<table>
+		<thead>
+		<tr>
+		<th>
+		Montant encaissé
+		</th>
+		<th>
+		Charges et travaux
+		</th>
+		<th>
+		revenue net
+		</th>
+		<th>
+		revenue mensuel net
+		</th>
+		</tr>
+		</thead>
+		
+		<tbody>
+		<% ligneCouleur = '#E0E0E0'  %>
+		<tr style="background-color: <%= ligneCouleur %>">
+		<td>
+		  <%= formatMonetaire(montant_total_libre + montant_total_synthese ) %>
+		</td>
+		<td>
+		  <%= formatMonetaire(charge_total_vide + charge_total_meuble ) %>
+		</td>
+		<td>
+		  <%= formatMonetaire((montant_total_libre + montant_total_synthese) - (charge_total_vide + charge_total_meuble ) ) %>
+		</td>
+		<td>
+		  <%= formatMonetaire(((montant_total_libre + montant_total_synthese) - (charge_total_vide + charge_total_meuble )) / @nb_mois ) %>
+		</td>
+		</tr>
+		<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+		</tbody>
+	</table>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Outils', :action => 'index' %>

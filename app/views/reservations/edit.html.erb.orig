@@ -1,0 +1,52 @@
+<h1>Editing réservation</h1>
+
+<%= error_messages_for :reservation %>
+<%@t= @reservation.type_location%>
+<% form_for(@reservation) do |field_reservation| %>
+<% if @reservation.numEtat == 0 %>
+<p>
+    <b>Date de début</b>
+    <br/>
+    <%= date_select :reservation , :date_debut , :order=>[:day ,:month,:year]  %>
+</p>
+<p>
+    <b>Date de fin</b>
+    <br/>
+    <%= date_select :reservation , :date_fin , :order=>[:day ,:month,:year] %>
+</p>
+<p>
+    <b>Nombre de personnes</b>
+    <br/>
+    <%= field_reservation.text_field :nombre_personne %>
+</p>
+<p>
+  <b>type de location</b><br />
+  <select name="reservation[type_location]">
+ 	<% @type_location.each do |typ| %>
+	       <option value="<%= typ %>" 
+		<%= 'selected' if typ == @t %>>
+		<%= typ %>
+	       </option>
+	<% end %> 	
+  </select>
+<p>
+    <b>montant loyer(par semaine ou par mois)</b>
+    <br/>
+    <%= field_reservation.text_field :prix %>
+</p>
+<p>
+    <b>Acompte</b>
+    <br/>
+    <%= field_reservation.text_field :acompte %>
+</p>
+<% end %>	
+<p>
+    <b>Remarques commentaires</b>
+    <br/>
+    <%= field_reservation.text_area(:commentaire, :size => "20x5") %>
+</p>
+<%= field_reservation.submit "Actualiser" %>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>
+<% end %>

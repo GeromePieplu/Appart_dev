@@ -1,0 +1,16 @@
+class CreateRepartitions < ActiveRecord::Migration
+  def self.up
+    create_table :repartitions do |t|
+      t.string :nom
+      t.float :valeur
+      t.integer :appartement_id
+      t.integer :immeuble_id
+
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :repartitions
+  end
+end

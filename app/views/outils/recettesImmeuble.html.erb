@@ -1,0 +1,92 @@
+<h2 class="title">Listing paiements <%=@immeuble.nom %></B></h2>
+<h4>situé: <%= @immeuble.adresse %> <%= @immeuble.code_postal %> <%= @immeuble.ville %></h4>
+<h4>periode du <%=h dateToChaineCourte(@date_debut)%> au <%=h dateToChaineCourte(@date_fin)%></h4>
+<h4>type location:  <%=h @choixTypeLoc%></h4>
+<%total_paiement_meublé = 0%>
+<%total_paiement_non_meublé = 0%>
+</FONT>
+<table>
+	<thead>		
+    <tr>
+        <th>
+            Numero paiement
+        </th>
+
+        <th>
+            date
+        </th>
+        <th>
+            appartement
+        </th>
+
+		<th>
+            montant
+        </th>
+		<th> 
+			type 
+		</th>
+		<th>date banque</th>
+        <th>référence banque</th>
+		<th>
+			remarques
+		</th>
+    </tr>
+	</thead>
+	
+	<tbody>
+	<% ligneCouleur = '#E0E0E0'  %>
+	<%if not @paiements.nil? then %>
+	  <% for paiement in @paiements %>
+	     <% total_paiement_meublé += paiement.montant %>
+        <tr style="background-color: <%= ligneCouleur %>" class="<%= cycle("bodd", "odd") %>" >
+    	  <td><%=h paiement.id %></td>
+          <td><%=h paiement.date_paiement %></td>
+          <td><%=h paiement.reservation.appartement.nom %></td>
+          <td><%=h paiement.montant %></td>
+          <td><%=h paiement.type_paiement %></td>
+          <td><%=h paiement.date_banque %></td>
+          <td><%=h paiement.ref_banque %></td>
+          <td><%=h paiement.commentaires %></td>                
+      </tr>
+	  <% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+      <% end %>
+  <% end %>
+  <%if not @paiementsBail.nil? then %>
+  	 <% for paiement in @paiementsBail %>
+	      <% total_paiement_non_meublé += paiement.montant %>
+        <tr style="background-color: <%= ligneCouleur %>" class="<%= cycle("bodd", "odd") %>" >
+    	  <td>
+              <%=h paiement.id %>
+          </td>
+    		
+          <td>
+              <%=h paiement.date %>
+          </td>
+          <td>
+              <%=h paiement.bail.appartement.nom %>
+          </td>
+          <td>
+              <%=h paiement.montant %>
+          </td>
+          <td>
+              <%=h paiement.type_paiement %>
+          </td>
+          <td>
+              <%=h paiement.commentaires %>
+          </td>                
+      </tr>
+	  <% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+      <% end %>
+  <% end %>
+	</tbody>
+</table>
+<br>	
+<h4>Total paiements meublé =   <%= total_paiement_meublé %> Euros </h4>
+<br>
+<h4>Total paiement non meublé =   <%=total_paiement_non_meublé%> Euros </h4>
+<br>
+<h4>Total paiement  =   <%=total_paiement_meublé + total_paiement_non_meublé%> Euros </h4>
+<br>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Outils', :controller => 'outils', :action=> 'index' %>

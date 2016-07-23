@@ -1,0 +1,81 @@
+<h1 class="title">Outils</h1>
+
+
+<table>
+    <tr>
+        <th>
+            designation outils
+        </th>
+        <th>
+            description outils
+        </th>		
+     </tr>
+	<% ligneCouleur = '#E0E0E0'  %>
+   	<tr style="background-color: <%= ligneCouleur %>">
+		<td align=center>
+           	<%= link_to 'bilan periode', :controller => 'outils', :action => 'choixBilan', :id => 2 %>
+       	</td>
+		<td align=center>
+           	Bilan pour un propriètaire et une période donnée
+       	</td>		
+    </tr>
+	<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end %>
+   	<tr style="background-color: <%= ligneCouleur %>">
+		<td align=center>
+           	<%= link_to 'bilan annuel', :controller => 'outils', :action => 'choixBilanAnnuel', :id => 2 %>
+       	</td>
+		<td align=center>
+           	Bilan annuel pour un propriètaire et une période donnée
+       	</td>		
+    </tr>
+	<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end %>
+  	<tr style="background-color: <%= ligneCouleur %>">
+		<td align=center>
+           	<%= link_to 'historique', :controller => 'outils', :action => 'choixHisto', :id => 2 %>
+       	</td>
+		<td align=center>
+           	historique des réservation pour un appartement et une période donnée
+       	</td>		
+    </tr>
+	<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end %>
+  	<tr style="background-color: <%= ligneCouleur %>">
+		<td align=center>
+           	<%= link_to 'historique annuel', :controller => 'outils', :action => 'choixHistoAnnuel', :id => 2 %>
+       	</td>
+		<td align=center>
+           	historique des réservation pour un appartement et une année donnée
+       	</td>		
+    </tr>
+	<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end %>
+  	<tr style="background-color: <%= ligneCouleur %>">
+		<td align=center>
+           	<%= link_to 'depenses par immeuble', :controller => 'factures', :action => 'choixDepensesImmeuble', :id => 2 %>
+       	</td>
+		<td align=center>
+           	depense pour un immeuble
+       	</td>		
+    </tr>
+	<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end %>
+  	<tr style="background-color: <%= ligneCouleur %>">
+		<td align=center>
+           	<%= link_to 'recettes par immeuble', :controller => 'outils', :action => 'choixRecettesImmeuble', :id => 2 %>
+       	</td>
+		<td align=center>
+           	depense pour un immeuble
+       	</td>		
+    </tr>
+	<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end %>	
+	<%    if @current_user.login == 'admin' then%>
+	  	<tr style="background-color: <%= ligneCouleur %>">
+			<td align=center>
+	           	<%= link_to 'bilan paiement', :controller => 'outils', :action => 'choixBilanPaiement', :id => 2 %>
+	       	</td>
+			<td align=center>
+	           	bilan recette en espèces
+	       	</td>		
+	    </tr>
+	<% end %>
+</table>
+<br/><br/><br/>
+
+

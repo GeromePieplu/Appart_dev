@@ -1,0 +1,86 @@
+<h1>voir bails</h1><br>
+<p>
+  <b>Date debut:</b>
+  <%=h dateToChaineLongue (@bail.date_debut) -%>
+</p>
+<p>
+  <b>Date fin:</b>
+  <%=h dateToChaineLongue (@bail.date_fin) -%>
+</p>
+<p>
+  <b>Etat:</b>
+  <%=h @etat[@bail.etat] -%>
+</p>
+<p>
+  <b>Caution:</b>
+  <%=h @bail.caution -%>
+</p>
+<p>
+  <b>Indice reference:</b>
+  <%=h @bail.indice_reference -%>
+</p>
+<p>
+  <b>Locataire:</b>
+  <%=h @bail.locataire.prenom %>   <%=h @bail.locataire.nom %>
+</p>
+<p>
+  <b>Appartement:</b>
+  <%=h @bail.appartement.nom %>
+</p>
+<p>
+  <b>Solde au  <%=h dateToChaineLongue (@bail.date_solde) %> : </b> <%=h @bail.solde %> Euros  
+</p>
+
+<p>
+  <b>Solde courrant :</b><br>
+    Montant du : <%=h @bail.apayer_depuis_solde %> Euros <br>
+	Montant payer: <%= @total_paiement %> Euros <br> 
+	Solde : <%= @solde %> Euros <br> 
+</p>
+
+<p>
+  <b>Montant loyer:</b> <%=h @bail.montant_loyer.montant %>  <b> date d'effet: </b>
+    <%=h dateToChaineLongue (@bail.montant_loyer.date_debut) %>
+</p>
+<p>
+  <b>Montant charge: </b> <%=h @bail.montant_charge.montant %> <b> date d'effet: </b>
+   <%=h dateToChaineLongue (@bail.montant_charge.date_debut) %>
+</p>
+<p>
+  <b>Quittance:</b>
+	<%if @bail.quittance_id.nil? then %> 
+    <%else%> N° <%= @bail.quittance.numero %> <%= h getNomMois(@bail.quittance.mois.month) %>
+	<%end%>
+</p>
+
+<%= link_to 'Editer', edit_bail_path(@bail) %> |
+<%= link_to 'Retour', bails_path %>
+<br><br>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Type</th>
+	<th>Provenance</th>
+    <th>Montant</th>
+    <th>Numero cheque</th>
+   </tr>
+<b>liste des paiements</b><br />
+<%paiementTotal = 0%>
+<% @bail.paiement_bail.each do |paiement| %>
+<%paiementTotal += paiement.montant%>
+  <tr>
+    <td><%=h dateToChaine(paiement.date) %></td>
+    <td><%=h paiement.type %></td>
+    <td><%=h paiement.provenance %></td>	
+    <td><%=h paiement.montant.to_s + " €" %></td>
+    <td><%=h paiement.numero_cheque %></td>
+	<td><%= link_to 'Supprimer', :action => 'confirmation_delete' , :id => paiement.id%></td>
+  </tr>
+<% end %>
+</table>
+ <br />
+    <b>total payé:</b>
+    <%= paiementTotal.to_s + " €" %><br>
+
+

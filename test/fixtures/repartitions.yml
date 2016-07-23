@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  nom: MyString
+  valeur: 1.5
+  appartement_id: 1
+  immeuble_id: 1
+
+two:
+  nom: MyString
+  valeur: 1.5
+  appartement_id: 1
+  immeuble_id: 1

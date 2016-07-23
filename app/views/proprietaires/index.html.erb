@@ -1,0 +1,34 @@
+<h1>Listing proprietaires</h1>
+
+<table>
+  <tr>
+    <th>Nom</th>
+    <th>Prenom</th>
+    <th>Adresse</th>
+    <th>Code postal</th>
+    <th>Ville</th>
+    <th>Telephone</th>
+    <th>Email</th>
+    <th>Pays</th>
+  </tr>
+
+<% @proprietaires.each do |proprietaire| %>
+  <tr>
+    <td><%=h proprietaire.nom %></td>
+    <td><%=h proprietaire.prenom %></td>
+    <td><%=h proprietaire.adresse %></td>
+    <td><%=h proprietaire.code_postal %></td>
+    <td><%=h proprietaire.ville %></td>
+    <td><%=h proprietaire.telephone %></td>
+    <td><%=h proprietaire.email %></td>
+    <td><%=h proprietaire.pays %></td>
+    <td><%= link_to 'Show', proprietaire %></td>
+    <td><%= link_to 'Edit', edit_proprietaire_path(proprietaire) %></td>
+    <td><%= link_to 'Destroy', proprietaire, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New proprietaire', new_proprietaire_path %>

@@ -1,0 +1,6 @@
+<h1>Listing factures</h1>
+periode du <%=h dateToChaineCourte(@date_debut)%> au <%=h dateToChaineCourte(@date_fin)%>
+<br />
+Numéro;Date;Emetteur;Type;Soustype;Montant total;LieuxDépense;DateBanque;RefBanque;Remarque
+<% for facture in @factures %><%immeub = if (facture.immeuble_id).nil? then  "tous" else facture.immeuble.nom  end %><%=h facture.id %>;<%=h facture.date %>;<%=h facture.emetteur %>;<%=h facture.typeDepense %>;<%=h facture.soustype %>;<%= formatCsv(facture.montant) %>;<%=h immeub %>;<%=h facture.date_banque %>;<%=h facture.ref_banque %>;<%=h facture.remarque %>
+<% end %>

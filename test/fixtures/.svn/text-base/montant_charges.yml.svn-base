@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  date_debut: 2010-01-17
+  montant: 1.5
+  bail_id: 1
+
+two:
+  date_debut: 2010-01-17
+  montant: 1.5
+  bail_id: 1

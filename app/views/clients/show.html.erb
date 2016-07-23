@@ -1,0 +1,44 @@
+<p>
+  <b>Nom:</b>
+  <%=h @client.nom %>
+</p>
+
+<p>
+  <b>Prenom:</b>
+  <%=h @client.prenom %>
+</p>
+
+  <p>
+    <b>Adresse</b><br />
+    <%=h @client.adresse %>
+  </p>
+
+  <p>
+    <b>Code postal</b><br />
+    <%=h @client.code_postal %>
+  </p>
+
+  <p>
+    <b>Ville</b><br />
+    <%=h @client.ville %>
+  </p>
+
+  <p>
+    <b>Pays</b><br />
+    <%=h @client.pays %>
+  </p>
+  
+  <p>
+    <b>Telephone</b><br />
+    <%=h @client.telephone %>
+  </p>
+
+  <p>
+    <b>Mail</b><br />
+    <%=h @client.email %>
+  </p>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp; |
+<%= link_to 'clients', clients_path %>&nbsp;&nbsp; |
+<%= link_to 'Editer', edit_client_path(@client) %> |
+

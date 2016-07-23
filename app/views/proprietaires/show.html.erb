@@ -1,0 +1,49 @@
+<p>
+  <b>Nom:</b>
+  <%=h @proprietaire.nom %>
+</p>
+
+<p>
+  <b>Prenom:</b>
+  <%=h @proprietaire.prenom %>
+</p>
+
+<p>
+  <b>Adresse:</b>
+  <%=h @proprietaire.adresse %>
+</p>
+
+<p>
+  <b>Code postal:</b>
+  <%=h @proprietaire.code_postal %>
+</p>
+
+<p>
+  <b>Ville:</b>
+  <%=h @proprietaire.ville %>
+</p>
+
+<p>
+  <b>Telephone:</b>
+  <%=h @proprietaire.telephone %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%=h @proprietaire.email %>
+</p>
+
+<p>
+  <b>Pays:</b>
+  <%=h @proprietaire.pays %>
+</p>
+<p>
+  <b>signature:</b>
+  <%=h @proprietaire.signature %>
+</p>
+<p>
+  <b>login_name</b>
+  <%=h @proprietaire.login_name %>
+</p>
+<%= link_to 'Edit', edit_proprietaire_path(@proprietaire) %> |
+<%= link_to 'Back', proprietaires_path %>

@@ -1,0 +1,32 @@
+<h1>Listing factures</h1>
+
+<table>
+  <tr>
+  	<th>Numéro</th>
+    <th>Date</th>
+    <th>Emetteur</th>
+    <th>Type</th>
+    <th>Soustype</th>
+    <th>Montant total</th>
+    <th>Remarque</th>
+  </tr>
+
+<% for facture in @factures %>
+  <tr>
+  	<td><%=h facture.id %></td>
+    <td><%=h facture.date %></td>
+    <td><%=h facture.emetteur %></td>
+    <td><%=h facture.typeDepense %></td>
+    <td><%=h facture.soustype %></td>
+    <td><%=h facture.montant %></td>
+    <td><%=h facture.remarque %></td>
+    <td><%= link_to 'Voir', facture %></td>
+    <td><%= link_to 'Modifier', edit_facture_path(facture) %></td>
+    <td><%= link_to 'Supprimer', facture, :confirm => 'supprimer la facture?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Nouvelle facture', new_facture_path %>

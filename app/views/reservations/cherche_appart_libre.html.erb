@@ -1,0 +1,53 @@
+<h1 class="title"><%= "appartement libre pour la période" %> <br><br> <%= "du " + dateToChaineLongue(@date_debut)  %> <br><br> <%=" au " + dateToChaineLongue(@date_fin)%></h1>
+
+<h3 style="font-size: 14pt; background-color: rgb(255, 204, 102);" align=center  > Appartement meublé </h3>
+<% form_for(@reservation) do |field_reservation| %>
+<p>
+<%= field_reservation.hidden_field :date_debut %>	
+<%= field_reservation.hidden_field :date_fin %>	
+<FONT SIZE=2 STYLE="font-size: 12pt">
+
+</FONT>
+<table>
+    <tr>
+        <th>
+            Nom appartement
+        </th>
+        <th>
+            Nombre jour libre
+        </th>
+        <th>
+            Détail
+        </th>
+		<th>
+			etat
+		</th>
+     </tr>
+	<% ligneCouleur = '#E0E0E0'  %>
+	<% @tab_libre.each do |ligne| %>
+    	<tr style="background-color: <%= ligneCouleur %>">
+			<td align=center>
+            	<%= link_to ligne[4], :action => 'new', :id => ligne[1] %>
+       		</td>
+			<td align=center>
+            	<%= ligne[0] %>
+       		</td>
+			<td align=left  >
+            	<%=  ligne[2] %>
+       		</td>
+			<td align=center bgcolor= <%= ligne[3] %> >
+			   <%= ligne[6] %> 
+       		</td>		
+    	</tr>
+	<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end %>
+	<% end %>
+
+</table>
+<%end%>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>
+
+<br/><br/><br/>
+
+

@@ -1,0 +1,40 @@
+<h1>Modifier facture</h1>
+
+<% form_for(@facture) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :typeDepense %><br />
+    <%= select(:facture, :typeDepense , @typeDepense) %>
+  </p>
+
+  <p>
+    <%= f.label :soustype %><br />
+	<%= collection_select("choix" ,"choixSoustype", @soustypes,:soustype, :soustype,{:include_blank => true}) %> choix Liste ou 
+	<%= f.text_field :soustype %>
+  </p>
+  <p>
+    <%= f.label :immeuble %><br />
+	<%= collection_select(:facture, :immeuble_id , @immeubles, :id, :nom,{:include_blank => true}) %> 
+  </p>  
+  <p>
+    <b>Date banque</b>
+    <br/>
+	<%= date_select(:facture,:date_banque, :order=>[:day ,:month,:year] ) %>
+  </p> 
+  <p>
+    <b>Référence banque</b>
+    <br/>
+     <%= f.text_field(:ref_banque) %>
+  </p>   
+  <p>
+    <%= f.label :remarque %><br />
+    <%= f.text_field :remarque %>
+  </p>
+  <p>
+    <%= f.submit "Modifier" %>
+  </p>
+<% end %>
+
+<%= link_to 'Voir', @facture %> |
+<%= link_to 'Retour', factures_path %>

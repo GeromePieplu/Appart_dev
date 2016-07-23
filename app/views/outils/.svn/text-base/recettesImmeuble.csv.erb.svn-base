@@ -1,0 +1,15 @@
+Listing paiements <%=@immeuble.nom %>
+situé: <%= @immeuble.adresse %> <%= @immeuble.code_postal %> <%= @immeuble.ville %>
+periode du <%=h dateToChaineCourte(@date_debut)%> au <%=h dateToChaineCourte(@date_fin)%>
+type location:  <%=h @choixTypeLoc%>
+
+Numero paiement;date;appartement;montant;type;date banque;référence banque;remarque
+	<%if not @paiements.nil? then %>
+	 <% for paiement in @paiements %><%=h paiement.id %>;<%= paiement.date_paiement %>;<%=h paiement.reservation.appartement.nom %>;<%= formatCsv(paiement.montant) %>;<%= paiement.type_paiement %>;<%=h paiement.date_banque %>;<%=h paiement.ref_banque %>;<%= paiement.commentaires %>
+    <% end %>
+   <% end %>  
+   <%if not @paiementsBail.nil? then %>
+	 <% for paiement in @paiementsBail %><%=h paiement.id %>;<%= paiement.date %>;<%=h paiement.bail.appartement.nom %>;<%= formatCsv(paiement.montant) %>;<%= paiement.type_paiement %>;<%= paiement.commentaires %>
+    <% end %>
+   <% end %>      
+    

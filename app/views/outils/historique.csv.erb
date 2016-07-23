@@ -1,0 +1,6 @@
+Listing historique reservations <%=@appartement.nom%>
+pour la période du <%= dateToChaineCourte(@from_date) %> au <%= dateToChaineCourte(@to_date)%>
+Numero;Nom;Prenom;total Paiements;<%= "°°°°°°Période°°°°°°°" %>
+	<% for reservation in @reservations %>
+	<% total_reserv = 0 %><% for p in reservation.paiements.find(:all,:conditions=>{:date_paiement=>@from_date..@to_date}) %><%total_reserv += p.montant %><% end %><%=h reservation.id %>;<%=h reservation.client.nom %>;<%=h reservation.client.prenom %>;<%= formatCsv(total_reserv) %>;<%= dateToChaineCourte(reservation.date_debut < @from_date ? @from_date :reservation.date_debut)+ " au "+ dateToChaineCourte(reservation.date_fin < @to_date ? reservation.date_fin : @to_date) %>
+    <% end %>

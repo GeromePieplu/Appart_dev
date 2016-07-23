@@ -1,0 +1,59 @@
+<h1>Editer le bail</h1><br>
+
+<% form_for(@bail) do |f| %>
+  <%= f.error_messages %>
+  <%if @etat[@bail.etat] == 'nouveau' then%>
+  <p>
+    <%= f.label :date_debut %><br />
+    <%= f.date_select :date_debut, :order=>[:day ,:month,:year]  %>
+  </p>
+  <p>
+    <%= f.label :indice_reference %><br />
+    <%= f.text_field :indice_reference %>
+  </p>  
+  <%end%>
+  <p>
+    <%= f.label :date_fin %><br />
+    <%= f.date_select :date_fin, :order=>[:day ,:month,:year]  %>
+  </p>
+  <p>
+    <%= f.label :etat %><br />
+	<select name="bail[etat]">
+	<%i = 0%>	
+ 	<% @etat.each do |etat| %>
+	       <option value= <%= i %> "<%= etat %>" 
+		<%= 'selected' if i == @bail.etat %>>
+		<%= i %> <%= etat %>
+	       </option>
+		<% i += 1 %>   
+	<% end %> 	
+    </select>
+  </p>
+  <%if @etat[@bail.etat] == 'nouveau' then%>  
+  <p>
+    <%= f.label :caution %><br />
+    <%= f.text_field :caution %>
+  </p>
+  <%end%>  
+   <p>
+    <%= f.label :solde %> date du solde<br />
+    <%= f.text_field :solde %>
+    <%= f.date_select :date_solde, :order=>[:day ,:month,:year], :start_year=>2009  %>
+  </p>
+  <%if @etat[@bail.etat] == 'nouveau' then%>  
+  <p>
+    <%= f.label :montant_loyer_id %><br />
+    <%=  text_field "montant", "montant_loyer", :value =>@bail.montant_loyer.montant %>
+  </p>
+  <p>
+    <%= f.label :montant_charge_id %><br />
+    <%= text_field "montant", "montant_charge", :value =>@bail.montant_charge.montant %>
+  </p>
+  <%end%>
+  <p>
+    <%= f.submit 'Modifier' %>
+  </p>
+<% end %>
+
+<%= link_to 'Voir', @bail %> |
+<%= link_to 'retour', bails_path %>

@@ -1,0 +1,81 @@
+<h1>Voir réservation</h1>
+  <p><br>
+    <b>Date de création:</b>
+    <%=h "le " + dateToChaineLongue(@reservation.date_ouverture) %><br>
+    <b>Etat réservation:</b>
+    <%=h  @reservation.etat  %><br>
+	
+  <b>Client:</b>
+  <%=h @client.prenom + " " + @client.nom.upcase %><br>
+  <b>nombre de personnes:</b>
+  <%=h @reservation.nombre_personne %><br>
+
+  <b>Appartement:</b>
+  <%=h @appartement.nom %><br>
+    <b>Période</b>
+    <%=h "du " + dateToChaineLongue(@reservation.date_debut)+ " au " + dateToChaineLongue(@reservation.date_fin)  %><br>
+	<%if @reservation.type_location == "mois" %>
+    	<b>nombre de mois:</b>
+    	<%=h @nb_semaine_mois.floor %> mois et  <%=h ((@nb_semaine_mois - @nb_semaine_mois.floor)*30).round %> jours<br>	
+	<%else%>
+    	<b>nombre de semaines:</b>
+	    <%=h @nb_semaine_mois.floor %> semaine et  <%=h ((@nb_semaine_mois - @nb_semaine_mois.floor)* 7).round %> jours<br>	
+	<%end%>		
+	<b>type de location:</b>
+    <%= @reservation.type_location %><br>		
+	<%if @reservation.type_location == "mois" %>
+    	<b>montant loyer par mois:</b>
+	<%else%>
+ 	  	<b>montant loyer par semaine:</b>
+	<%end%>	
+    <%=h @reservation.prix.to_s + "€" %><br>
+    <b>prix total:</b>
+    <%= @montant_total.floor.to_s + "€" %> &nbsp;&nbsp;&nbsp;&nbsp;Caution: <%=h @reservation.cautionEncaissee %> &nbsp;&nbsp;
+      <%= link_to 'modifier encaissement caution', :action => 'changeCautionEncaissee', :id => @reservation.id %> <br>
+    <b>acompte:</b>
+    <%= @reservation.acompte.to_s + "€" %><br>	
+    <b>remarques commentaires:</b>
+    <%= @reservation.commentaire %>	
+	<br>
+  </p>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Type</th>
+    <th>Montant</th>
+    <th>date banque</th>
+    <th>référence banque</th>
+	<th>Commentaires</th>
+	<%= link_to 'Ajouter paiement', :action => 'new_paiement', :id => @reservation.id %>
+   </tr>
+<b>liste des paiements</b><br />
+<%paiementTotal = 0%>
+<% for paiement in @paiements %>
+<%paiementTotal += paiement.montant%>
+  <tr>
+    <td><%=h dateToChaine(paiement.date_paiement) %></td>
+    <td><%=h paiement.type_paiement %></td>
+    <td><%=h paiement.montant.to_s + " €" %></td>
+    <td><%=h paiement.date_banque %></td>
+    <td><%=h paiement.ref_banque %></td>
+    <td><%=h paiement.commentaires %></td>	
+	<td><%= link_to 'Editer', :action => 'editer_paiement' , :id => paiement.id%>&nbsp;
+		<%= link_to 'Supprimer', :action => 'confirmation_delete' , :id => paiement.id%></td>
+  </tr>
+<% end %>
+</table>
+ <br />
+    <b>total payé:</b>
+    <%= paiementTotal.to_s + " €" %><br>
+	<b>reste due:</b>
+	<big><big>
+    <%= (@montant_total.floor - paiementTotal).to_s + " €" %>
+	</big></big>
+<br /><br>
+
+
+<%= link_to 'Editer reservation', :action => 'edit', :id => @reservation.id %> |
+<%= link_to 'Editer contrat', :action => 'editer_contrat', :id => @reservation.id %> |
+<%= link_to 'Retour', :back%> |
+<%= link_to 'Reservations', reservations_path %>

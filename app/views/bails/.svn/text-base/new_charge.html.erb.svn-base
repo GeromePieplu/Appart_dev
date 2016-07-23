@@ -1,0 +1,19 @@
+<h1>Nouvelle charge</h1>
+<%= error_messages_for :montant_charge %>
+<% form_for :bail, @bail, :url => {:action => "create_charge", :id => @bail.id } do |field_bail| %>
+<% fields_for(@montant_charge) do |f| %>
+	<p>
+	    <b>Date nouvelle chrge</b>
+	    <br/>
+		<%= date_select(:montant_charge, :date_debut, :order=>[:day ,:month,:year] ) %>
+	</p>
+  <p>
+    <b><%= f.label :montant_charge %></b><br />
+    <%= f.text_field :montant %>
+  </p>
+<% end %>
+<p>
+    <%= field_bail.submit "Creer" %>
+</p>
+<% end %>
+<%= link_to 'Retour',  :action => 'show', :id => @bail.id %>

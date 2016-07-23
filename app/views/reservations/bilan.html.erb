@@ -1,0 +1,100 @@
+<h1 class="title">Bilan propriétaire : <%= @proprietaire.prenom%> <%= @proprietaire.nom%></h1>
+<h2>pour la période du <%= dateToChaineCourte(@date_debut) %> au <%= dateToChaineCourte(@date_fin)%></h2><br>
+
+<% montant_total_synthese = 0 %>
+<% nb_jours_occ_synthese = 0 %>
+<% nb_jours_libre_synthese = 0 %>
+<% taux_occupation_synthese = 0.0 %>
+
+<% for appartement in @appartements %>
+	<% montant_total = 0 %>
+	<% nb_jours_occ = 0 %>
+	<% nb_jours_libre = 0 %>
+	<% taux_occupation = 0.0 %>
+	<h3 style="font-size: 14pt; background-color: rgb(255, 204, 102);" align=center  ><%=h appartement.nom %></h3>
+	<table>
+		<tr>
+		<th>
+		Montant encaissé
+		</th>
+		<th>
+		nombre jours occupés
+		</th>
+		<th>
+		nombre jours libre
+		</th>
+		<th>
+		taux d'occupation
+		</th>
+		</tr>
+		<% ligneCouleur = '#E0E0E0'  %>
+		<% reservations = appartement.reservations.find(:all,:conditions =>{:numEtat=>[0,1,2,3,4,5]}) %>
+		<% for reservation in reservations %>
+			<%for paiement in Paiement.find(:all,:conditions =>{:reservation_id => reservation.id,:date_paiement=>@date_debut..@date_fin})%>
+			  <% montant_total += paiement.montant %>
+			<% end %> 
+			  <% nb_jours_occ += getNbJoursPeriode(reservation, @date_debut, @date_fin) %>
+		<% end %>  
+		<% # calcul du nombre de jours libres et taux occupation%> 
+		<% nb_jours_libre = ((@date_fin - @date_debut) + 1 ) - nb_jours_occ %>
+		<% taux_occupation = nb_jours_occ / ((@date_fin - @date_debut) + 1 )* 100.0 %>	
+		<tr style="background-color: <%= ligneCouleur %>">
+		<td>
+		  <%=h montant_total %>
+		</td>
+		<td>
+		  <%=h nb_jours_occ %>
+		</td>
+		<td>
+		  <%=h nb_jours_libre %>
+		</td>	
+		<td>
+		  <%=h taux_occupation %>
+		</td>
+		</tr>
+		<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+	</table>
+	<% #mise à jours des variables pour la synthese de tous les appart%>
+	<% montant_total_synthese += montant_total %>
+	<% nb_jours_occ_synthese += nb_jours_occ %>
+	<% nb_jours_libre_synthese += nb_jours_libre %>
+
+<br/><br/><br/>
+<% end %>
+	<% taux_occupation_synthese = nb_jours_occ_synthese /(nb_jours_occ_synthese + nb_jours_libre_synthese)* 100.0 %>
+	<h3 style="font-size: 14pt; background-color: rgb(255, 204, 102);" align=center  > Synthèse </h3>
+	<table>
+		<tr>
+		<th>
+		Montant encaissé
+		</th>
+		<th>
+		nombre jours occupés
+		</th>
+		<th>
+		nombre jours libre
+		</th>
+		<th>
+		taux d'occupation
+		</th>
+		</tr>
+		<% ligneCouleur = '#E0E0E0'  %>
+		<tr style="background-color: <%= ligneCouleur %>">
+		<td bgcolor=<%=  getCouleurReserv(3)%>>
+		  <%=h montant_total_synthese %>
+		</td>
+		<td>
+		  <%=h nb_jours_occ_synthese %>
+		</td>
+		<td>
+		  <%=h nb_jours_libre_synthese %>
+		</td>	
+		<td>
+		  <%=h taux_occupation_synthese %>
+		</td>
+		</tr>
+		<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+	</table>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>

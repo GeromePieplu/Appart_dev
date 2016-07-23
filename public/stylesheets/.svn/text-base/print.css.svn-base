@@ -1,0 +1,59 @@
+#header, #logo,#sidebar,#footer {
+	display:none;	
+}
+
+table {width: 95%; margin:5px; float: none;}
+
+table { 
+	border:2px solid gray;
+	border-collapse:collapse;
+	font: 12pt Garamond, "Times New Roman", Times, serif; 
+	margin:auto;
+}
+
+td, th { 
+ color:#363636;
+ padding:.4em;
+}
+
+tr { 
+ border:1px solid gray;
+}
+thead th, tfoot th { 
+ background:#5C443A;
+ color:#FFFFFF;
+ padding:3px 10px 3px 10px;
+ text-align:left;
+ text-transform:uppercase;
+}
+
+tbody td {
+	text-transform:capitalize !important;
+}
+
+.table_link {
+	display:none;
+}
+
+tbody th, tbody td { 
+ text-align:left;
+ vertical-align:top;
+}
+
+
+
+.odd { 
+ background:#fff !important;
+}
+
+.bodd { 
+ background:#D3E4E5 !important;
+}
+
+tbody tr td {
+	text-transform:capitalize;
+}
+
+.period {
+	width:225px;
+}

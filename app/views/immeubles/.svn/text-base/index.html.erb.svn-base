@@ -1,0 +1,28 @@
+<h1>Listing immeubles</h1>
+
+<table>
+  <tr>
+    <th>Nom</th>
+    <th>Adresse</th>
+    <th>Code postal</th>
+    <th>Ville</th>
+    <th>Date achat</th>
+  </tr>
+
+<% for immeubles in @immeubles %>
+  <tr>
+    <td><%=h immeubles.nom %></td>
+    <td><%=h immeubles.adresse %></td>
+    <td><%=h immeubles.code_postal %></td>
+    <td><%=h immeubles.ville %></td>
+    <td><%=h immeubles.date_achat %></td>
+    <td><%= link_to 'Show', immeubles %></td>
+    <td><%= link_to 'Edit', edit_immeuble_path(immeubles) %></td>
+    <td><%= link_to 'Destroy', immeubles, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New immeubles', new_immeuble_path %>

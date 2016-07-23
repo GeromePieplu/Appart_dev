@@ -1,0 +1,50 @@
+ <h2>Choix des dépenses pour un appartement</h2>
+ <%choix = "choix"%>
+<% form_for(@depense,  :url => { :action => "depenseSelection" }) do |field_reservation| %>
+
+<p>
+    <b>Appartement</b>
+    <br/>
+	<%= collection_select(:depense, "appartement_id", @appart , :id, :nom) %>
+</p>
+
+<p>
+	<b>période de sélection</b><br />
+	<select name="periode">
+		<% ["Période", "annuelle", "année courante", "toutes"].each do |typ| %>
+	       <option value="<%= typ %>" 
+		<%= 'selected' if typ == "toutes" %>>
+		<%= typ %>
+	       </option>
+	<% end %> 	
+	</select>
+</p>
+	
+<p>
+    <b>Date de début(si Période ou annuelle)</b>
+    <br/>
+    <%= date_select choix , "date_debut" , :order=>[:day ,:month,:year]  %>
+</p>
+<p>
+    <b>Date de fin(si Période)</b>
+    <br/>
+    <%= date_select choix , "date_fin" , :order=>[:day ,:month,:year] %>
+</p>
+<p>
+	<b>format de sortie</b><br />
+	<select name="formatSortie">
+		<% ["écran", "excel"].each do |forms| %>
+	       <option value="<%= forms %>" 
+		<%= 'selected' if forms == "écran" %>>
+		<%= forms %>
+	       </option>
+	<% end %> 	
+	</select>
+</p>	
+
+
+<%= field_reservation.submit  'Dépenses' %>
+<%end%>
+<br />
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Factures', factures_path %>

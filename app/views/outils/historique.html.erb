@@ -1,0 +1,60 @@
+<h2 class="title">Listing historique reservations <B><%=@appartement.nom%></B></h2>
+<h4>pour la période du <%= dateToChaineCourte(@from_date) %> au <%= dateToChaineCourte(@to_date)%></h4>
+<%total_paiement_histo = 0%>
+</FONT>
+<table>
+	<thead>		
+    <tr>
+        <th>
+            Numero
+        </th>
+
+        <th>
+            Nom
+        </th>
+        <th>
+            Prenom
+        </th>
+
+		<th>
+            total Paiements
+        </th>
+		<th> <%= "°°°°°°Période°°°°°°°" %> </th>
+    </tr>
+	</thead>
+	
+	<tbody>
+	<% ligneCouleur = '#E0E0E0'  %>
+	<% for reservation in @reservations %>
+	   <% total_reserv = 0 %>
+	   <% for p in reservation.paiements.find(:all,:conditions=>{:date_paiement=>@from_date..@to_date}) %>
+	     <%total_reserv += p.montant %>
+	   <% end %>   
+	   <% total_paiement_histo += total_reserv %>
+    <tr style="background-color: <%= ligneCouleur %>" class="<%= cycle("bodd", "odd") %>" >
+    	<td>
+            <%=h reservation.id %>
+        </td>
+    		
+        <td>
+            <%=h reservation.client.nom %>
+        </td>
+        <td>
+            <%=h reservation.client.prenom %>
+        </td>
+        <td>
+            <%= total_reserv %>
+        </td>
+		<td class="period">
+            <%= dateToChaineCourte(reservation.date_debut < @from_date ? @from_date :reservation.date_debut )+ " au "+ dateToChaineCourte(reservation.date_fin < @to_date ? reservation.date_fin : @to_date) %>
+        </td>			
+    </tr>
+	<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+    <% end %>
+	</tbody>
+</table>
+<br>	
+<h4>Total paiement historique =   <%=total_paiement_histo%> Euros </h4>
+<br><br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Outils', :action=> 'index' %>

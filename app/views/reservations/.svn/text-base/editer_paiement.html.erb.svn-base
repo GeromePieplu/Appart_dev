@@ -1,0 +1,39 @@
+<h1>edition paiement pour <%=h @reservation.client.prenom %> <%=h @reservation.client.nom %></h1>
+<%= error_messages_for :paiement %>
+<% form_for :paiement, @paiement, :url => {:action => "update_paiement", :id => @paiement.id } do |f| %>
+
+<p>
+    <b>Date paiement</b>
+    <br/>
+	<%= date_select(:paiement,:date_paiement, :order=>[:day ,:month,:year] ) %>
+</p>
+<p>
+    <b>Type Paiement</b>
+    <br/>
+	<%= 
+	 @type_paiement = {:cheque=>'Chèque',:espece=>'Espèce',:virement=>'Virement bancaire',:paypal=>'Paypal'}
+	select(:paiement,:type_paiement, @type_paiement,:selected =>@paiement.type_paiement) %>	
+    <!-- Commentaire <%= f.text_field :type_paiement %> --> 
+</p>
+<p>
+    <b>Date banque</b>
+    <br/>
+	<%= date_select(:paiement,:date_banque, :order=>[:day ,:month,:year] ) %>
+</p>
+<p>
+    <b>Référence banque</b>
+    <br/>
+     <%= f.text_field(:ref_banque) %>
+</p>
+<p>
+    <b>Commentaires</b>
+    <br/>
+     <%= f.text_area(:commentaires, :size => "20x3") %>
+</p>
+<p>
+    <%= f.submit "Modifier" %>
+</p>
+<% end %>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>

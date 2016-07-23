@@ -1,0 +1,139 @@
+<h1>traiter bail</h1><br>
+<h2>infos générales</h2>
+<table class="tableau_fixe">
+  <tr>
+    <th style="width:70px">Date debut</th> 	
+    <th style="width:100px">Date fin</th>
+    <th style="width:100px">Locataire</th>
+    <th style="width:100px">Appartement</th>
+  </tr>
+  <tr>
+   	<td class="bordure"><%= dateToChaineLongue (@bail.date_debut) %></td>
+    <td class="bordure"><%=h dateToChaineLongue(@bail.date_fin) %></td>
+    <td class="bordure"><%=h @bail.locataire.prenom %> <%=h @bail.locataire.nom %></td>
+    <td class="bordure"><%=h @bail.appartement.nom %></td>
+  </tr>
+</table>
+<table class="tableau_fixe">
+  <tr>
+	<th  style="width:50px">Etat</th>
+    <th style="width:50px">caution</th>
+    <th style="width:50px">indice référence</th>
+	<th style="width:50px">Solde au <%=h dateToChaineLongue (@bail.date_solde) %> </th>
+  </tr>
+  <tr>
+    <td class="bordure"><%=h @etat[@bail.etat] %></td>
+    <td class="bordure"><%=h @bail.caution %></td>
+	<td class="bordure"><%=h @bail.indice_reference %></td>
+	<td class="bordure"><%= formatMonetaire(@bail.solde) %></td>
+  </tr>
+</table><br>
+
+<h2>Solde courrant depuis le dernier solde</h2>
+<table class="tableau_fixe">
+  <tr>
+    <th style="width:75px">Montant du</th> 	
+    <th style="width:75px">Montant payé</th>
+    <th style="width:60px">Solde</th>
+    <th style="width:60px">Paiement</th>	
+  </tr>
+  <tr>
+   	<td class="bordure"><%= formatMonetaire(@bail.apayer_depuis_solde) %></td>
+    <td class="bordure"><%= formatMonetaire(@total_paiement) %></td>
+    <td class="bordure"><%= formatMonetaire(@solde) %></td>
+	<td class="bordure">
+      <%= link_to 'Ajouter', :action => 'new_paiement', :id => @bail.id %>
+    </td>	
+  </tr>
+</table><br>
+
+<h2>Dernière quittance</h2>
+<table class="tableau_fixe">
+  <tr>
+    <th style="width:70px">Numéro</th> 	
+    <th style="width:100px">date</th>
+    <th style="width:100px"></th>
+  </tr>
+  <tr>
+   	<td class="bordure">
+   		<%if @bail.quittance_id.nil? then %> 
+        <%else%><%= @bail.quittance.numero %>
+	    <%end%>
+	</td>
+   	<td class="bordure">
+   		<%if @bail.quittance_id.nil? then %> 
+        <%else%><%= h getNomMois(@bail.quittance.mois.month) %>
+	    <%end%>
+	</td>
+    <td class="bordure">      
+	  <%= link_to 'nouvelle', :action => 'new_quittance', :id => @bail.id %><br>
+	  <%= link_to 'voir', :action => 'show_quittance', :id => @bail.id %><br>
+	  <%= link_to 'selectionner', :action => 'choix_quittance', :id => @bail.id %>	
+    </td>
+  </tr>
+</table><br>
+
+<h2>Loyer</h2>
+<table class="tableau_fixe">
+  <tr>
+    <th style="width:70px">Montant</th> 	
+    <th style="width:100px">date d'effet</th>
+    <th style="width:100px"></th>
+  </tr>
+  <tr>
+   	<td class="bordure"><%= formatMonetaire(@bail.montant_loyer.montant) %></td>
+    <td class="bordure"><%=h dateToChaineLongue (@bail.montant_loyer.date_debut) %></td>
+    <td class="bordure"><%= link_to 'changer', :action => 'new_loyer', :id => @bail.id %></td>
+  </tr>
+</table><br>
+
+<h2>Charge</h2>
+<table class="tableau_fixe">
+  <tr>
+    <th style="width:70px">Montant</th> 	
+    <th style="width:100px">date d'effet</th>
+    <th style="width:100px"></th>
+  </tr>
+  <tr>
+   	<td class="bordure"><%= formatMonetaire(@bail.montant_charge.montant) %></td>
+    <td class="bordure"><%=h dateToChaineLongue (@bail.montant_charge.date_debut) %></td>
+    <td class="bordure"><%= link_to 'changer', :action => 'new_charge', :id => @bail.id %></td>
+  </tr>
+</table><br>
+
+<span style='font-size:16px'>
+<%= link_to 'Retour', bails_path %>
+</span>
+<br><br>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Type</th>
+	<th>Provenance</th>
+    <th>Montant</th>
+    <th>Numero cheque</th>
+	<th>Commentaires</th>
+   </tr>
+   
+<b>liste des paiements</b><br />
+<%paiementTotal = 0%>
+<% @paiements.each do |paiement| %>
+<%paiementTotal += paiement.montant%>
+  <tr>
+    <td><%=h dateToChaine(paiement.date) %></td>
+    <td><%=h paiement.type_paiement %></td>
+    <td><%=h paiement.provenance %></td>	
+    <td><%=h paiement.montant.to_s + " €" %></td>
+    <td><%=h paiement.numero_cheque %></td>
+    <td><%=h paiement.commentaires %></td>	
+	<td><%= link_to 'Editer', :action => 'editer_paiement' , :id => paiement.id%>&nbsp;
+		<%= link_to 'Supprimer', :action => 'confirmation_delete' , :id => paiement.id%></td>
+  </tr>
+<% end %>
+</table>
+ <br />
+    <b>total payé:</b>
+    <%= paiementTotal.to_s + " €" %><br>
+
+

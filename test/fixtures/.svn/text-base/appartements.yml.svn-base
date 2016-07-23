@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  nom: MyString
+  nom_proprietaire: MyString
+  prenom_proprietaire: MyString
+  adresse: MyText
+  code_postal: 1
+  ville: MyString
+  superficie: 1.5
+
+two:
+  nom: MyString
+  nom_proprietaire: MyString
+  prenom_proprietaire: MyString
+  adresse: MyText
+  code_postal: 1
+  ville: MyString
+  superficie: 1.5

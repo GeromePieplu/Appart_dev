@@ -1,0 +1,187 @@
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+</HEAD>
+<BODY LANG="fr-FR" TEXT="#000000" DIR="LTR">
+<P CLASS="western" ALIGN=CENTER><FONT FACE="Arial, sans-serif"><FONT SIZE=4><B>CONTRAT
+DE LOCATION  SAISONNIERE n° <%= @reservation.id %><br><%= @appartement.nom %></B></FONT></FONT></FONT></P>
+
+<P CLASS="western" ALIGN=LEFT> <FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><U>Entre
+les soussignés :</U></FONT></FONT></P>
+<P CLASS="western" ALIGN=LEFT> <FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>
+<%= @proprietaire.prenom %> <%= @proprietaire.nom %> <br>
+<%if @proprietaire.id != @gerant.id then%> </B>Représenté par <B><br> <%= @gerant.prenom + " " + @gerant.nom%> <br> <%end%>
+<%= @gerant.adresse%><br>
+<%= @gerant.code_postal + " " +  @gerant.ville%><br>
+<%= @gerant.telephone%><br>
+<%= @gerant.email%>
+</B></FONT></FONT></P>
+<P CLASS="western" ALIGN=LEFT STYLE="line-height: 100%"><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><U>dénommé
+le bailleur d’une part,</U></FONT></FONT></P>
+<P CLASS="western" STYLE="line-height: 100%"><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><U>et
+ :</U></FONT></FONT></P>
+<P CLASS="western" ALIGN=LEFT STYLE="line-height: 100%"><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>
+	<%= @client.prenom %> <%= @client.nom %><br>
+	<%= @client.adresse %><br>
+	<%= @client.code_postal %> <%= @client.ville %></B></FONT></FONT></P>
+<P CLASS="western" ALIGN=LEFT STYLE="line-height: 100%"><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><U>dénommé
+le preneur d’autre part,</U></FONT></FONT></P>
+<P CLASS="western" ALIGN=LEFT STYLE="line-height: 100%">
+</P>
+<P CLASS="western" ALIGN=CENTER STYLE="line-height: 100%"><FONT SIZE=2><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Il
+a été convenu d'une location saisonnière pour la période du</FONT></FONT></FONT></P>
+<P CLASS="western" ALIGN=CENTER STYLE="line-height: 100%"><FONT SIZE=2><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><U><B><%= dateToChaineLongue(@reservation.date_debut) %> au <%= dateToChaineLongue(@reservation.date_fin) %></B></U>
+<%if @reservation.type_location == "mois" %>
+   	(soit <%=h @nb_mois.floor %> mois<%if @nb_mois.floor < @nb_mois%> et  <%=h ((@nb_mois - @nb_mois.floor)*30).round %> jours<%end%>)<br>	
+	<%else%>
+	(soit <%=h @nb_semaine.floor %> semaine(s)<%if @nb_semaine.floor < @nb_semaine%> et  <%=h ((@nb_semaine - @nb_semaine.floor)* 7).round %> jours<%end%>)<br>	
+	<%end%>	</FONT></FONT></FONT></P>
+<P CLASS="western" ALIGN=LEFT STYLE="line-height: 100%"><FONT SIZE=2><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Adresse
+de la location : </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B><%= @appartement.adresse %> <%= @appartement.code_postal %> <%= @appartement.ville %></B></FONT></FONT></FONT></P>
+
+<P CLASS="western" ALIGN=LEFT STYLE="line-height: 100%"><FONT SIZE=2><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Montant
+du loyer pour <%=@reservation.nombre_personne%> personne(s): </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B><%= @reservation.prix %>
+euros  </B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><% if  @reservation.type_location == "mois" then%>le mois
+<%else%>la
+semaine<%end%>  <% if @appartement.type_location == "MeubléElec" then%>
+charges comprises(eau, internet, forfait électricité 300kWh par mois compris)<br>
+<FONT SIZE=2 STYLE="font-size: 9pt"><U><B>Toute consommation au dela de 300 kWh sera facturée au tarif de  0,15 euros le kWh</B></U><br>
+	<P CLASS="western" ALIGN=LEFT STYLE="line-height: 100%"><FONT SIZE=2><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">
+		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Relevé compteur electrique arrivée : <br>
+		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Relevé compteur electrique départ : </FONT></FONT><FONT FACE="Arial, sans-serif">
+   </P>
+<% else%>  
+charges comprises, (eau, électricité<FONT SIZE=2 STYLE="font-size: 7pt"> *voir CONDITIONS GENERALES 4<FONT SIZE=2 STYLE="font-size: 11pt">, chauffage, internet)
+<% end%>
+<P CLASS="western" ALIGN=LEFT STYLE="line-height: 100%"><FONT SIZE=2><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Les
+arrhes de </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B><%= @reservation.acompte %>
+EUROS</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">
+ont été versées par le preneur.</FONT></FONT></FONT></P>
+<P CLASS="western" ALIGN=LEFT STYLE="line-height: 100%"><FONT SIZE=2><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">
+	<%if @multiPaiement == 0 then%>
+Le solde de </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B><%= @premier_versement%>
+euros </B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">ainsi
+qu’un dépôt de garantie de </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B><%= @appartement.montant_caution%> Euros</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">
+devront être versés <br><br>le jour de la remise des clés, soit le <%= dateToChaineLongue(@reservation.date_debut) %> .
+<% else %>
+Un premier versement de </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B><%= @premier_versement%>
+euros </B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">ainsi
+qu’un dépôt de garantie de </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B><%= @appartement.montant_caution%> Euros</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">
+devront être versés le jour de la remise des clés, soit le <%= dateToChaineLongue(@reservation.date_debut) %> .<br><br>
+Le solde de <B><%= @solde %> Euros</B> 
+  <%if @versement_mois > 0 then%>
+    par versement de <B><%= @versement_mois%> Euros</B> chaque 1er du mois à partir du <%= dateToChaineLongue(@dateDeuxiemePaiement) %>  
+	  <%if @dernier_versement > 0 then %>. Le dernier versement sera de <B><%= @dernier_versement%> Euros</B> <%end%>
+  <%else%>
+        le <%= dateToChaineLongue(@dateDeuxiemePaiement) %>  
+  <%end%>
+<% end %></FONT></FONT></FONT></P>
+<P CLASS="western" ALIGN=LEFT STYLE="line-height: 100%">
+</P>
+<P CLASS="western" ALIGN=LEFT STYLE="line-height: 100%"><FONT SIZE=2><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Fait
+en deux exemplaires à Toulouse le <%= dateToChaineLongue(@reservation.date_ouverture ) %></FONT></FONT></FONT></P>
+<% if @reservation.numEtat == 0 then %>
+	<%= link_to 'Valider contrat', :action => 'valider_edition', :id => @reservation.id %> 
+	<%= link_to 'Retour', :back %>
+	<%= link_to 'Retour reservations', reservations_path %>
+<% end %>
+<table style="width:100%;text-align:left">
+	<tr>
+	<th>Le Bailleur </th>
+	<th>Le locataire <br>Lu et approuvé</th>
+	</tr>
+	<tr>
+<td><%=image_tag(@gerant.signature)%></td>
+<td></td></tr>
+</table>
+<P CLASS="western" ALIGN=CENTER STYLE="background: #d8d8d8; page-break-before: always">
+<FONT FACE="Arial, sans-serif"><FONT SIZE=4><B>CONDITIONS GENERALES</B></FONT></FONT></P>
+<P CLASS="western" ALIGN=JUSTIFY><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">La
+présente location est faite aux conditions ordinaires et de droit en
+pareille matière et notamment à celles ci-après que le preneur
+s’oblige à exécuter, sous peine de tous dommages et intérêts et
+même de résiliations des présentes, si bon semble au mandataire et
+sans pouvoir réclamer la diminution du loyer.</FONT></FONT></P>
+<OL>
+	<LI><P CLASS="western" ALIGN=JUSTIFY><FONT SIZE=2><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">Les
+	heures d’arrivée sont normalement prévues </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt"><B>le
+	samedi après-midi à 16H</B> . Les
+heures de départ sont normalement prévues <B>le
+samedi matin à 10H</B></FONT></FONT></P>
+</OL>
+<OL START=2>
+	<LI><P CLASS="western" ALIGN=JUSTIFY><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">Il
+	est convenu qu'en cas de désistement : 	<br>
+	- du <B>locataire</B> : 
+	-à plus d'un mois avant la prise d'effet du bail, le locataire perd
+les arrhes versées,<br>
+-à moins d'un mois avant la prise d'effet du bail, le
+locataire versera en outre la différence entre les arrhes et
+l'équivalent du loyer total, à titre de clause pénale,<br>
+-en cours de bail un préavis de un mois payé sera la règle.<br><br>
+-du <B>bailleur</B> : 
+	- dans les sept jours suivant le désistement, il est tenu de verser le
+double des arrhes au locataire.</FONT></FONT>
+	</P>
+</OL>
+
+<OL START=3>
+	<LI><P CLASS="western" ALIGN=JUSTIFY><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">Si
+	un retard de plus de quatre jours par rapport à la date d’arrivée
+	prévue n’a pas été signalé par le preneur, le bailleur pourra
+	de bon droit, essayer de relouer le logement tout en conservant la
+	faculté de se retourner contre le preneur.</FONT></FONT></P>
+</OL>
+<P CLASS="western" ALIGN=JUSTIFY><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">a)
+Obligation d’occuper les lieux personnellement, de les habiter “&nbsp;en
+bon père de famille&nbsp;” et de les entretenir. Toutes les
+installations sont en état de marche et toute réclamation les
+concernant survenant plus de 24 h après l’entrée en jouissance
+des lieux, ne pourra être admise. Obligation de veiller à ce
+que la tranquillité du voisinage ne soit pas troublée par le fait
+du preneur ou de sa famille.</FONT></FONT></P>
+<P CLASS="western" ALIGN=JUSTIFY><FONT SIZE=2><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">b)
+Les locaux sont loués meublés avec matériel de cuisine, vaisselle,
+verrerie, couvertures et oreillers, tels qu’ils sont dans l’état
+descriptif ci-joint. S’il y a lieu, le propriétaire ou son
+représentant seront en droit de réclamer au preneur à son départ,
+le prix du nettoyage des locaux loués (fixé forfaitairement à 50
+euros), la valeur totale au prix de remplacement des objets,
+mobiliers ou matériels cassés, fêlés, ébréchés ou détériorés
+, le prix de nettoyage des couvertures rendues sales, une
+indemnité pour les détériorations de toute nature concernant les
+rideaux, papiers peints, plafonds, tapis, moquette, vitres, literie,
+etc. ...</FONT></FONT></FONT></P>
+<P CLASS="western" ALIGN=JUSTIFY><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">c)
+Le bailleur s'engage à assurer le logement contre les risques
+locatifs pour le compte du locataire, ce dernier ayant l'obligation
+de lui signaler, dans les 24 h, tout sinistre survenu dans le
+logement, ses dépendances ou accessoires.</FONT></FONT></P>
+<P CLASS="western" ALIGN=JUSTIFY><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">d)
+Le dépôt de garantie devra être payé par chèque. Il sera
+restitué au plus tard 1 mois après le départ du locataire sauf en
+cas de retenue.</FONT></FONT></P>
+<P CLASS="western" ALIGN=JUSTIFY><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">e)
+Le preneur ne pourra s’opposer à la visite des locaux, lorsque le
+propriétaire ou son représentant en feront la demande.</FONT></FONT></P>
+<OL START=4>
+	<LI><P CLASS="western" ALIGN=JUSTIFY><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">La consommation d'électricité courante est comprise dans le tarif. 
+	Il est strictement interdit de brancher un radiateur électrique personnel.<br>
+	<U><B>Toute consommation au dela de 300 kWh sera facturée au tarif de  0,15 euros le kWh</B></U></FONT></FONT></P>
+</OL>
+<OL START=5>
+	<LI><P CLASS="western" ALIGN=JUSTIFY><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">Dans le cas d'un chauffage central au gaz nous garantissons une température comprise entre 19 et 20° de 6 heures à 23 heures et de 17° de 23 heures à 6 heures.
+	Le degré supplémentaire sera facturé sur demande à 15 euros par mois. 
+	<U><B>Il est strictement interdit de toucher au réglage de la chaudière et du thermostat.<br>
+	Toute modification des réglages non autorisée sera facturée forfaitairement 50 Euros par mois.</B></U></FONT></FONT></P>
+</OL>
+<OL START=6>
+	<LI><P CLASS="western" ALIGN=JUSTIFY><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">Charte d'utilisation d'internet: Le téléchargement illégal d'oeuvres protégés est strictement interdit.</FONT></FONT></P>
+</OL>
+<P CLASS="western" ALIGN=LEFT STYLE="line-height: 100%"><FONT FACE="Arial, sans-serif"><FONT SIZE=2 STYLE="font-size: 9pt">
+Le Bailleur <center>Le locataire</center>
+<I><center>
+Lu et approuvé
+</I></center>
+<%=image_tag(@gerant.signature)%></FONT></FONT></FONT></P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Appartements: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'scaffold' %>
+  <%= stylesheet_link_tag 'appart' %>
+  <%= stylesheet_link_tag 'print', :media => "print" %>
+  
+</head>
+<body>
+	
+<!-- start header -->
+<div id="header">
+	<div id="menu">
+		<ul>
+			<li class="current_page_item"><a href="#">Accueil</a></li>
+			<li><%= link_to 'Réservations', :controller => "reservations" ,:action => "index" %></li>
+			<li><%= link_to 'Clients/Locataire', :controller => "clients" ,:action => "index" %></li>
+			<li><%= link_to 'Bails', :controller => "bails" ,:action => "index" %></li>			
+			<li><%= link_to 'Factures', :controller => "factures" ,:action => "index" %></li>			
+			<li><%= link_to 'Outils',:controller => "outils" ,:action => "index" %><</li>
+			<li class="last"><a href="#">Contact</a></li>
+		</ul>
+	</div>
+</div>
+
+<div id="logo">
+	<h1><a href="#">Gestion Appart</a></h1>
+	<h2> login: <%= @current_user.login %></h2>
+</div>
+<!-- end header -->
+<!-- start page -->
+<div id="page">
+		<!-- start content -->
+	<div id="content">
+		<div class="post">
+			<p style="color: green"><%= flash[:notice] %></p>
+			<%= yield  %>
+		</div>
+	</div>
+	<!-- start sidebar -->
+	<div id="sidebar">
+		<ul>
+			<li>
+				<h2>Gestion</h2>
+				<ul>
+				<!--	<li><%= link_to 'Ajouter réservations', :controller => "reservations" ,:action => "new" %></li> -->
+					<li><%= link_to 'Ajouter clients', :controller => "clients" ,:action => "new" %></li>
+					<li><%= link_to 'Editer Appartement', :controller => "appartements" ,:action => "index" %></li>
+					<li><%= link_to 'simulateur prix', :controller => "reservations" ,:action => "simulation_reservation",:id=>2 %></li>
+					<li><%= link_to 'rechercher appart libres', :controller => "reservations" ,:action => "choix_periode_achercher",:id=>2 %></li>
+				</ul>
+			</li>
+			<li>
+				<h2>Autre Menu</h2>
+				<ul>
+					<li><%= link_to 'Deconnection', :controller => "account" ,:action => "logout" %></li>
+					<li><a href="#">Magna la</a></li>
+					<li><a href="#">Velit se</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<!-- end sidebar -->
+	<div style="clear: both;">&nbsp;</div>
+</div>
+<!-- end page -->
+
+<!-- start footer -->
+<div id="footer">
+	<div id="footer-wrap">
+	<p id="legal">(c) 2008 PIEPLU & Fils. Design by Popop.</p>
+	</div>
+</div>
+<!-- end footer -->
+</body>
+</html>

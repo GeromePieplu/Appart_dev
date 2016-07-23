@@ -1,0 +1,45 @@
+<h1>Simulation de prix </h1><br>
+<% form_for(@reservation,  :url => { :action => "simulation_reservation" }) do |field_reservation| %>
+
+<p>
+    <b>Date de début</b>
+    <br/>
+    <%= date_select :reservation , :date_debut , :order=>[:day ,:month,:year]  %>
+</p>
+<p>
+    <b>Date de fin</b>
+    <br/>
+    <%= date_select :reservation , :date_fin , :order=>[:day ,:month,:year] %>
+</p>
+<p>
+  <b>type de location</b><br />
+  <%= select(:reservation,:type_location, @type_location) %>	
+</p>	
+<p>
+    <b>montant loyer(par semaine ou par mois)</b>
+    <br/>
+    <%= field_reservation.text_field :prix %>
+</p>
+<div STYLE="border:4px solid;"><font size="7">
+<p>
+    <font size="5"><b>prix total:</b>
+    <%= @reservation.montant_total.floor.to_s + "€" %></font>
+</p>
+<p><font size="5">
+	<%if @reservation.type_location == "mois" %>
+    	<b>nombre de mois:</b>
+    	<%=h @nb_semaine_mois.floor %> mois et  <%=h ((@nb_semaine_mois - @nb_semaine_mois.floor)*30).round %> jours<br>	
+	<%else%>
+    	<b>nombre de semaines:</b>
+	    <%=h @nb_semaine_mois.floor %> semaine et  <%=h ((@nb_semaine_mois - @nb_semaine_mois.floor)* 7).round %> jours<br>	
+	<%end%>		
+</font></p>
+</font></div>	
+<p>
+    <%= field_reservation.submit "Simuler" %>
+</p>
+
+<% end %>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>

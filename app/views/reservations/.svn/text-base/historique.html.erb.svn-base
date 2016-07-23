@@ -1,0 +1,89 @@
+<h2 class="title">Listing historique reservations <B><%=@appartement.nom%></B></h2>
+<%total_paiement_histo = 0%>
+</FONT>
+<table>
+    <tr>
+        <th>
+            numero
+        </th>
+        <th>
+            Nom
+        </th>
+        <th>
+            Prenom
+        </th>
+		<th>
+            Etat
+        </th>
+		<th>
+            total Paiements
+        </th>
+		<th> <%= "°°°°°°Période°°°°°°°" %> </th>
+		<th>Réservation</th>
+		<th>Paiement</th>
+		<th>Contrat</th>
+		<th>Reçue</th>
+		<%if @admin then%>		
+			<th>Tout espèce</th>
+			<th>annuler</th>
+		<%end%>
+    </tr>
+	<% ligneCouleur = '#E0E0E0'  %>
+	<% for reservation in @reservations %>
+	   <% total_reserv = reservation.paiements.sum("montant")%>
+	   <% total_paiement_histo += total_reserv %>
+    <tr style="background-color: <%= ligneCouleur %>">
+        <td>
+            <%=h reservation.id %>
+        </td>
+        <td>
+            <%=h reservation.client.nom %>
+        </td>
+        <td>
+            <%=h reservation.client.prenom %>
+        </td>
+		<td bgcolor=<%=  getCouleurReserv(reservation.numEtat)%>>
+            <%=h reservation.etat %>
+        </td>	
+        <td>
+            <%= total_reserv %>
+        </td>
+		<td>
+            <%= dateToChaineCourte(reservation.date_debut)+ " au "+ dateToChaineCourte(reservation.date_fin) %>
+        </td>			
+
+		<td align=center>
+            <%= link_to 'Voir', :action => 'show', :id => reservation.id %>
+			<% if (reservation.numEtat < 4) %>
+			<%= link_to 'Annuler', :action => 'confirmation_cancel', :id => reservation.id %>
+			<%end%>
+        </td align=center>
+		
+        <% if (reservation.etat != @etat[4]) %>
+			<td align=center>
+	            <%= link_to 'Ajouter', :action => 'new_paiement', :id => reservation.id %>
+	        </td>
+			<td align=center>
+	            <%= link_to 'Editer', :action => 'editer_contrat', :id => reservation.id %>
+	       	</td>
+			<td align=center>
+	            <%= link_to 'Editer', :action => 'new_recue', :id => reservation.id %>
+	        </td>
+			<%if @admin then%>
+				<td align=center>
+	            	<%= isToutEspece(reservation) %>
+	        	</td>
+				<td align=center>
+	            	<%= link_to 'rayer', :action => 'confirmation_rayer', :id => reservation.id %>
+	        	</td>
+			<%end%>
+		<% end %>
+    </tr>
+	<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+    <% end %>
+</table>
+<br>	
+<h2>Total paiement historique =   <%=total_paiement_histo%></h2>
+<br><br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>

@@ -1,0 +1,62 @@
+<h1>New appartement</h1>
+
+<%= error_messages_for :appartement %>
+
+<% form_for(@appartement) do |f| %>
+  <p>
+    <b>Nom</b><br />
+    <%= f.text_field :nom %>
+  </p>
+  <p>
+    <b>etat</b><br />
+  	<%= select(:appartement,:etat, @etat) %>	
+  </p>	
+
+  <p>
+    <b>type de location</b><br />
+  	<%= select(:appartement,:type_location, @type_location) %>	
+  </p>	
+  <p>
+    <b>montant de la caution</b><br />
+    <%= f.text_field :montant_caution %>
+  </p>
+   <p>
+    <b>choix immeuble</b><br />
+	<%= collection_select(:appartement, :immeuble_id, Immeuble.find(:all, :order => 'nom'), :id, :nom,{:include_blank => true}) %>	
+  </p> 
+  <p>
+    <b>choix proprietaire</b><br />
+	<%= collection_select(:appartement, :proprietaire_id, Proprietaire.find(:all, :order => 'nom'), :id, :name_with_initial,{:include_blank => true}) %>	
+  </p>
+
+  <p>
+    <b>choix gerant</b><br />
+    	<%= collection_select(:appartement, :gerant_id, Proprietaire.find(:all, :order => 'nom'), :id, :name_with_initial,{:include_blank => true}) %>
+  </p>
+
+  <p>
+    <b>Adresse</b><br />
+    <%= f.text_area :adresse %>
+  </p>
+
+  <p>
+    <b>Code postal</b><br />
+    <%= f.text_field :code_postal %>
+  </p>
+
+  <p>
+    <b>Ville</b><br />
+    <%= f.text_field :ville %>
+  </p>
+
+  <p>
+    <b>Superficie</b><br />
+    <%= f.text_field :superficie %>
+  </p>
+
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Retour', appartements_path %>

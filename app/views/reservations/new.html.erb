@@ -1,0 +1,66 @@
+<h1>Nouvelle réservation pour <%= @appartement.nom%></h1>
+<%= error_messages_for :reservation %>
+<% form_for(@reservation) do |field_reservation| %>
+<%= field_reservation.hidden_field :appartement_id %>
+<p>
+	<%if @reservation.client_id != nil%>
+	 <%clid = @reservation.client_id%>
+	 <%@client = Client.find(clid)%>
+    <br><b>client</b>
+    <br/>
+	 <span style="border:1px solid black;">	 
+	 <%= @client.prenom + " " + @client.nom %>
+	 <%= field_reservation.hidden_field :client_id %>
+	 </span>
+	<%else%>
+	  <b>Selectionner un client</b>
+      <br/>
+	  <%= collection_select(:reservation, :client_id, Client.find(:all, :order => 'nom'), :id, :name_with_initial,{:include_blank => true}) %>
+	  <%= link_to 'Nouveau', :controller => "clients" ,:action => "new_reserv", :id =>@appartement.id %>
+	<%end%>
+
+</p>	
+<h2>Réservation</h2>
+
+<p>
+    <b>Date de début</b>
+    <br/>
+    <%= date_select :reservation , :date_debut , :order=>[:day ,:month,:year]  %>
+</p>
+<p>
+    <b>Date de fin</b>
+    <br/>
+    <%= date_select :reservation , :date_fin , :order=>[:day ,:month,:year] %>
+</p>
+<p>
+    <b>Nombre de personnes</b>
+    <br/>
+    <%= field_reservation.text_field :nombre_personne %>
+</p>
+<p>
+  <b>type de location</b><br />
+  <%= select(:reservation,:type_location, @type_location) %>	
+</p>	
+ 
+<p>
+    <b>montant loyer(par semaine ou par mois)</b>
+    <br/>
+    <%= field_reservation.text_field :prix %>
+</p>
+<p>
+    <b>Acompte</b>
+    <br/>
+    <%= field_reservation.text_field :acompte %>
+</p>
+<p>
+    <b>Remarques commentaires</b>
+    <br/>
+    <%= field_reservation.text_area(:commentaire, :size => "20x5") %>
+</p>
+<p>
+    <%= field_reservation.submit "Creer" %>
+</p>
+<% end %>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>

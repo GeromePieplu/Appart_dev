@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+ <%= javascript_include_tag "gfbulle.js" %>
+</head>
+
+<h1 align=center>Disponibilités pour <%= @anneeCourrante.to_s %></h1>
+<table width= 438 height=35 border=1 cellspacing=0 align=center><tr valign=top> 
+ <tr>
+<% n = 1%> 	
+<%@tabAnneeCour.each_char do |c| %>
+ 
+  	<td  bordercolor=black height=32 bgcolor= <%= getCouleur( c) %>> 
+  	    <div align="center">
+
+  	    	<span  OnMouseOver= "BulleWrite( ' <%= getdateSemaine(n , @anneeCourrante) %>');" OnMouseOut ="BulleHide();">
+				<A ><%= n %></A></span>
+		</div> 		 		
+	</td>
+	<% if n % 13 == 0%>
+	  </tr> <tr>
+	<% end%>  	
+	<% n += 1%>  
+<% end %>
+</tr>
+</table>
+<br>
+
+<h1 align=center>Disponibilités pour <%= @anneeSuivante.to_s %></h1>
+<table width= 438 height=35 border=1 cellspacing=0 align=center><tr valign=top> 
+ <tr>
+<% n = 1%> 	
+<%@tabAnneeSuiv.each_char do |c| %>
+ 
+  	<td  bordercolor=black height=32 bgcolor= <%= getCouleur( c) %>>
+  	    <div align="center">
+  	    	<span  OnMouseOver= "BulleWrite(' <%= getdateSemaine(n , @anneeSuivante) %>');" OnMouseOut ="BulleHide();">
+				<A ><%= n %></A></span>
+		</div> 		 		
+	</td>
+	<% if n % 13 == 0%>
+	  </tr> <tr>
+	<% end%>  	
+	<% n += 1%>  
+<% end %>
+</tr>
+</table>
+ 

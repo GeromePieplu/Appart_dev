@@ -1,0 +1,31 @@
+<h2>Choix historiques des réservations</h2>
+<% form_for(@reservation, :url => { :action => "historiqueAnnuel" }) do |field_reservation| %>
+<p>
+
+
+<p>
+    <b>Année de l'historique</b>
+    <br/>
+    <%= select_year(Date.today, :start_year => 2006, :end_year => 2025)%>
+</p>
+<p>
+    <b>Appartement</b>
+    <br/>
+	<%= collection_select(:reservation, "appartement_id", Appartement.find(:all , :conditions=>{:type_location=>['Meublé','MeubléElec']}), :id, :nom,{:include_blank => true}) %>
+</p>
+<p>
+	<b>format de sortie</b><br />
+	<select name="formatSortie">
+		<% ["écran", "excel","excelpaiements"].each do |forms| %>
+	       <option value="<%= forms %>" 
+		<%= 'selected' if forms == "écran" %>>
+		<%= forms %>
+	       </option>
+	<% end %> 	
+	</select>
+</p>	
+<%= field_reservation.submit  'Historiques' %>
+<%end%>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Outils', :action => 'index' %>

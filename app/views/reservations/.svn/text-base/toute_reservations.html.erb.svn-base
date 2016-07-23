@@ -1,0 +1,82 @@
+<h1 class="title">Listing reservations</h1>
+<% for appartement in @appartements %>
+
+<h3 style="font-size: 14pt; background-color: rgb(255, 204, 102);" align=center  ><%=h appartement.nom %></h3>
+<FONT SIZE=2 STYLE="font-size: 12pt">
+<%= link_to ' Occupation ',:controller=>"appartements", :action => 'showOccupation', :id => appartement.id %>|
+<%= link_to ' Calendrier ',:controller=>"reservations", :action => 'calendrier', :id => appartement.id %>|
+<%= link_to ' nouvelle réservation ',:controller=>"reservations", :action => 'new', :id => appartement.id %>|
+<%= link_to ' historique réservations ',:controller=>"reservations", :action => 'choixHisto', :id => appartement.id %>|
+</FONT>
+<table>
+    <tr>
+        <th>
+            Nom
+        </th>
+        <th>
+            Prenom
+        </th>
+		<th>
+            Etat
+        </th>
+		<th>
+            °reste_du°
+        </th>
+		<th> <%= "°°°°°°Période°°°°°°°" %> </th>
+		<th>Réservation</th>
+		<th>Paiement</th>
+		<th>Contrat</th>
+		<th>Reçu</th>
+    </tr>
+	<% ligneCouleur = '#E0E0E0'  %>
+	<% for reservation in appartement.reservations.find(:all, :conditions =>{:numEtat=> 0..3},:order => 'date_debut') %>
+	    <% if reservation.cautionEncaissee == "encaissée" then %>
+        <% caution = appartement.montant_caution %>
+        <% else caution = 0%>
+        <% end %>
+    <tr style="background-color: <%= ligneCouleur %>">
+        <td>
+            <%= link_to reservation.client.nom, :controller => 'clients', :action => 'show', :id => reservation.client_id %>
+        </td>
+        <td>
+            <%= link_to reservation.client.prenom, :controller => 'clients', :action => 'show', :id => reservation.client_id %>
+        </td>
+		<td bgcolor=<%=  getCouleurReserv(reservation.numEtat)%>>
+            <%=h reservation.etat %>
+        </td>	
+        <td>
+        	<% total = reservation.paiements.sum("montant") %>
+			<% if total.nil? then total = 0 end%>
+            <%= (reservation.montant_total.floor + caution - total).to_s + " €" %> 
+        </td>
+		<td>
+            <%= dateToChaineCourte(reservation.date_debut)+ " au "+ dateToChaineCourte(reservation.date_fin) %>
+        </td>			
+
+		<td align=center>
+            <%= link_to 'Voir', :action => 'show', :id => reservation.id %>
+			<%= link_to 'Annuler', :action => 'confirmation_cancel', :id => reservation.id %>
+			<%= link_to 'Terminer', :action => 'confirmation_terminer', :id => reservation.id %>
+        </td align=center>
+		
+        <% if (reservation.etat != @etat[4]) %>
+		<td align=center>
+            <%= link_to 'Ajouter', :action => 'new_paiement', :id => reservation.id %>
+        </td>
+		<td align=center>
+            <%= link_to 'Editer', :action => 'editer_contrat', :id => reservation.id %>
+       	</td>
+		<td align=center>
+            <%= link_to 'Editer', :action => 'new_recue', :id => reservation.id %>
+        </td>
+		<% end %>
+    </tr>
+	<% if (ligneCouleur == "#E0E0E0") then ligneCouleur = "#F8F8F8" else ligneCouleur = "#E0E0E0" end%>
+    <% end %>
+</table>
+<br/><br/><br/>
+<% end %>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Réservations', reservations_path %>
+

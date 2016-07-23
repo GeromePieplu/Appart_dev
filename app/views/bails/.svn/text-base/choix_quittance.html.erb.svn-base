@@ -1,0 +1,22 @@
+<h1>Listing quittance</h1>
+
+<table>
+  <tr>
+    <th>_N°_</th> 	
+    <th>mois</th>
+	<th>voir</th>
+  </tr>
+
+<% @quittances.each do |quittance| %>
+  <tr>
+  	<td><%= quittance.numero %></td>
+    <td><%= h getNomMois(quittance.mois.month) %></td>
+    <td>
+		<%= link_to 'voir', :action => 'show_selected_quittance', :id => quittance.id %>
+	</td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<%= link_to 'retour', bails_path %>

@@ -1,0 +1,26 @@
+<h2>Choix historiques des réservations</h2>
+<% form_for(@reservation, :url => { :action => "historique" }) do |field_reservation| %>
+<p>
+
+
+<p>
+    <b>Date de début</b>
+    <br/>
+    <%= date_select :reservation , :date_debut , :order=>[:day ,:month,:year]  %>
+</p>
+<p>
+    <b>Date de fin</b>
+    <br/>
+    <%= date_select :reservation , :date_fin , :order=>[:day ,:month,:year] %>
+</p>
+<p>
+    <b>Appartement</b>
+    <br/>
+	<%= collection_select(:reservation, "appartement_id", Appartement.find(:all , :conditions=>{:type_location=>['Meublé','MeubléElec']}), :id, :nom,{:include_blank => true}) %>
+</p>
+
+<%= field_reservation.submit  'Historiques' %>
+<%end%>
+<br>	
+<%= link_to 'Retour', :back %> &nbsp;&nbsp;
+<%= link_to 'Outils', :action => 'index' %>

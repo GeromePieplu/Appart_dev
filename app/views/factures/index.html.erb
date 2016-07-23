@@ -1,0 +1,51 @@
+<h1>Listing factures</h1>
+<br />
+<%= link_to 'Nouvelle facture', new_facture_path %>&nbsp;&nbsp;&nbsp;
+<%= link_to 'Sélection factures', :action => "choixFactures", :id => '1' %>
+&nbsp;&nbsp;&nbsp;
+<%= link_to 'Dépenses appartement', :action => "choixDepenses", :id => '1' %>
+<br>
+<%= link_to 'Retour', :back %>&nbsp;&nbsp;&nbsp;
+<%= link_to 'Factures', factures_path %>
+<br />
+<table>
+  <tr>
+  	<th>Numéro</th>
+    <th>Date</th>
+    <th>Emetteur</th>
+    <th>Type</th>
+    <th>Montant total</th>
+    <th>Immeuble</th>
+    <th>RefBanque</th>
+    <th>Remarque</th>
+  </tr>
+<% montantTotal = 0 %>
+<% for facture in @factures %>
+  <tr>
+  	<td><%=h facture.id %></td>
+    <td><%=h facture.date %></td>
+    <td><%=h facture.emetteur %></td>
+    <td><%=h facture.typeDepense %></td>
+    <td><%= formatMonetaire(facture.montant) %></td>
+    <%immeub = if (facture.immeuble_id).nil? then  "tous" else facture.immeuble.nom  end %>
+    <td><%=h immeub %></td>
+    <td><%=h facture.ref_banque %></td>
+    <td><%=h facture.remarque %></td>
+    <td><%= link_to 'Voir', facture %></td>
+    <td><%= link_to 'Modifier', edit_facture_path(facture) %></td>
+    <td><%= link_to 'Supprimer', facture, :confirm => 'supprimer la facture?', :method => :delete %></td>
+  </tr>
+    <% montantTotal += facture.montant%>
+<% end %>
+</table>
+
+<br />
+Montant total
+<%= formatMonetaire(montantTotal)%>
+<br />
+<%= link_to 'Nouvelle facture', new_facture_path %>
+&nbsp;&nbsp;&nbsp;
+<%= link_to 'Sélection factures', :action => "choixFactures", :id => '1' %>
+<br>
+<%= link_to 'Retour', :back %>&nbsp;&nbsp;&nbsp;
+<%= link_to 'Factures', factures_path %>
