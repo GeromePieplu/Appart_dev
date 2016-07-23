@@ -13,7 +13,10 @@ class FacturesController < ApplicationController
   
   def index
     majTypeDepense
-    @factures = Facture.find(:all, :order=>"id DESC")
+     @date_annee = Date.today
+     @date_debut = Date.new( year=@date_annee.year-1, mon = 1, mday=1)
+     @date_fin = Date.new( year=@date_annee.year, mon = 12, mday=31)  
+     @factures = Facture.find(:all,:order=>"id DESC",:conditions =>{:date=>@date_debut..@date_fin})
     if @current_user.login == 'admin' or @current_user.login == 'pieplu' then
       respond_to do |format|
         format.html # index.html.erb
