@@ -380,7 +380,7 @@ end
   #recherche du nombre de quittance manquante
     manquante = -1
     if bail.quittance_id.nil? then 
-      temp_date = bail.date_solde
+      temp_date = bail.date_debut
       manquante = 0
     else  
       temp_date = bail.quittance.mois
@@ -420,7 +420,7 @@ end
       @montant_loyer = @bail.montant_loyer
       @montant_charge = @bail.montant_charge
       @quittance.numero = 1
-      @quittance.mois = Date.new(@bail.date_solde.year,@bail.date_solde.month,1)
+      @quittance.mois = Date.new(@bail.date_debut.year,@bail.date_debut.month,1)
       @quittance.montant_loyer_id = @bail.montant_loyer_id
       @quittance.montant_charge_id = @bail.montant_charge_id   
       
