@@ -12,7 +12,7 @@ class BailsController < ApplicationController
     if @current_user.login == 'admin' then
       @bails = Bail.find(:all)
     else
-      @appartements = getAppartNonMeuble
+      @appartements = getAppart
       @bails = Bail.find(:all, :conditions=>{:etat=> 0..2, :appartement_id =>@appartements} )
     end  
     @etat = etat
@@ -26,8 +26,8 @@ class BailsController < ApplicationController
 
 
   def tousBails
-    @appartements = getAppartNonMeuble
-    @bails = Bail.find(:all)
+    @appartements = getAppart
+    @bails = Bail.find(:all, :conditions=>{:appartement_id =>@appartements} )
     @etat = etat
     respond_to do |format|
       format.html {render :action => "index"}# index.html.erb
@@ -55,7 +55,7 @@ class BailsController < ApplicationController
   def new
     @etat = etat    
     @bail = Bail.new
-    @appartements = getAppartNonMeuble
+    @appartements = getAppart
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @bail }
